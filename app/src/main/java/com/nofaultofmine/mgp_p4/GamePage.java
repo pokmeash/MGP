@@ -3,6 +3,8 @@ package com.nofaultofmine.mgp_p4;
 // Created by TanSiewLan2021
 // Create a GamePage is an activity class used to hold the GameView which will have a surfaceview
 
+//adding comment
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.MotionEvent;
