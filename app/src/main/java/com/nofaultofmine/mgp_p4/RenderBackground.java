@@ -45,11 +45,12 @@ public class RenderBackground implements EntityBase{
     @Override
     public void Update(float _dt)
     {
-        xPos -= _dt * 500;
+       //yPos += _dt * 500;
 
-        if (xPos < -ScreenWidth){
-            xPos = 0;
-        }
+       //if (yPos > ScreenHeight){
+       //    yPos = 0;
+       //}
+        //no longer use moving bg only move when jumping
     };
 
     @Override

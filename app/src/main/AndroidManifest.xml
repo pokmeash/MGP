@@ -11,7 +11,7 @@
         android:theme="@style/Theme.MGP_P4">
         <activity
             android:name = ".Splashpage"
-            android:screenOrientation="landscape"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -21,7 +21,7 @@
 
         <activity
             android:name = ".Mainmenu"
-            android:screenOrientation="landscape"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -30,7 +30,7 @@
         </activity>
         <activity
             android:name = ".GamePage"
-            android:screenOrientation="landscape"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
