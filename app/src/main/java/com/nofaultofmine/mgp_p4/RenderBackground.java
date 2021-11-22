@@ -55,7 +55,7 @@ public class RenderBackground implements EntityBase{
 
         yPos += _dt * 500;
 
-        if (yPos > ScreenHeight){
+        if (yPos > ScreenHeight) {
             yPos = 0;
         }
     };
@@ -64,7 +64,7 @@ public class RenderBackground implements EntityBase{
     public void Render(Canvas _canvas)
     {
         _canvas.drawBitmap(Scaledbmp, xPos, yPos, null);
-        _canvas.drawBitmap(Scaledbmp, xPos + ScreenWidth, yPos, null);
+        _canvas.drawBitmap(Scaledbmp, xPos, yPos - ScreenHeight, null);
 
         Matrix transform = new Matrix();
         transform.postTranslate(200,200);
