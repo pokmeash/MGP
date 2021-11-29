@@ -32,14 +32,14 @@ public class RenderBackground implements EntityBase{
     @Override
     public void Init(SurfaceView _view)
     {
-        bmp = BitmapFactory.decodeResource(_view.getResources(), R.drawable.gamescene);
+        bmp = ResourceManager.Instance.GetBitmap(R.drawable.gamescene);
         DisplayMetrics metrics = _view.getResources().getDisplayMetrics();
         ScreenWidth = metrics.widthPixels;
         ScreenHeight = metrics.heightPixels;
 
         Scaledbmp = Bitmap.createScaledBitmap(bmp, ScreenWidth, ScreenHeight, true);
 
-        Ship = BitmapFactory.decodeResource(_view.getResources(), R.drawable.ship2_1);
+        Ship = ResourceManager.Instance.GetBitmap(R.drawable.ship2_1);
     };
 
     @Override
@@ -72,7 +72,6 @@ public class RenderBackground implements EntityBase{
         transform.postRotate((float)Math.toDegrees(30));
         _canvas.drawBitmap(Ship,500,500, null);
     };
-
     @Override
     public boolean IsInit()
     {

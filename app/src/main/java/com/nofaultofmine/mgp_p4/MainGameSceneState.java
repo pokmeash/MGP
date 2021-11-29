@@ -19,10 +19,14 @@ public class MainGameSceneState implements StateBase {
     @Override
     public void OnEnter(SurfaceView _view)
     {
-        RenderBackground.Create();
+        RenderBackground.Create(); // This is da entity
+        RenderTextEntity.Create(); // Da text
+        ResourceManager.Instance.Init(_view);
+        // Player.Create();
+        // NPC.Create();
+        // Pausebutton.Create();
         // Example to include another Renderview for Pause Button
     }
-
     @Override
     public void OnExit() {
         EntityManager.Instance.Clean();
