@@ -1,6 +1,7 @@
 package com.nofaultofmine.mgp_p4;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -10,6 +11,11 @@ import android.view.SurfaceView;
 
 public class MainGameSceneState implements StateBase {
     private float timer = 0.0f;
+    private float buttonDelay = 0;
+    private boolean Paused = false;
+
+    Intent intent;
+
 
     @Override
     public String GetName() {
@@ -24,8 +30,11 @@ public class MainGameSceneState implements StateBase {
         ResourceManager.Instance.Init(_view);
         // Player.Create();
         // NPC.Create();
-        // Pausebutton.Create();
+        PausebuttonEntity.Create();
+        //ReturnMenuButtonEntity.Create();
         // Example to include another Renderview for Pause Button
+
+        intent = new Intent();
     }
     @Override
     public void OnExit() {
@@ -45,11 +54,6 @@ public class MainGameSceneState implements StateBase {
 
         EntityManager.Instance.Update(_dt);
 
-        if (TouchManager.Instance.IsDown()) {
-			
-            //Example of touch on screen in the main game to trigger back to Main menu
-            StateManager.Instance.ChangeState("Mainmenu");
-        }
     }
 }
 
