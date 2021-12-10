@@ -1,50 +1,28 @@
 package com.nofaultofmine.mgp_p4;
 
+// Created by TanSiewLan2020
+
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.SurfaceView;
 import java.util.HashMap;
-
-
-public class ResourceManager {
-
+public class ResourceManager
+{
     public final static ResourceManager Instance = new ResourceManager();
-
-    private Resources res = null;  // Object name to Resource which is called res.
-
-    // Library used : import android.content.res.Resources;
-
-    // bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.gamescene);
-    // Meant we need to retrieve the information from the _view, which is our surfaceview, and our image to be loaded on the view.
-
-    // WE will use a HASH MAP
-    // Hash map name is called resMap
-    // Integer is the id
+    private Resources res = null;
     private HashMap<Integer, Bitmap> resMap = new HashMap<Integer, Bitmap>();
-
-    private ResourceManager () {}
-
-    public void Init (SurfaceView _view){
-        res = _view.getResources(); // _view is the surfaceview and where we get the images
-        // stored in res
+    private ResourceManager() {}
+    public void Init(SurfaceView _view)
+    {
+        res = _view.getResources();
     }
-
-    public Bitmap GetBitmap (int _id){
-        if  (resMap.containsKey(_id)) // USe by KEY
-            return resMap.get(_id); //does this just skip the decoderesources part?
-
-        // This allow the images to be loaded.
-        // === Bitmap bmp
-        // Every image used there is always an ID tied to it.
-        // If image is null --> program wil clash
-        // Image size to big will also clash the progam.
-
-        // Type your own if you want to check for null !!!!
-        Bitmap results = BitmapFactory.decodeResource(res, _id);
-        resMap.put(_id, results);
-        return results;
+    public Bitmap GetBitmap(int _id)
+    {
+        if (resMap.containsKey(_id))
+            return resMap.get(_id);
+        Bitmap result = BitmapFactory.decodeResource(res, _id);
+        resMap.put(_id, result);
+        return result;
     }
-
-
 }

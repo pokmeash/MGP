@@ -9,7 +9,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 
 public class JMainMenu extends Activity implements View.OnClickListener {
-    //Define the buttons weeeeeeeeeeeeeeeeee
+    //Define the buttons
     private Button btn_start;
     private Button btn_back;
 
@@ -31,17 +31,26 @@ public class JMainMenu extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v)
     {
+        // Intent = action to be performed.
+        // Intent is an object provides runtime binding.
+        // new instance of this object intent
 
         Intent intent = new Intent();
+
         if (v == btn_start)
         {
-            intent.setClass(this,JSplashPage.class);
+            // intent --> to set to another class which another page or screen that we are launching.
+            intent.setClass(this, GamePage.class);
+            StateManager.Instance.ChangeState("MainGame"); // Default is like a loading page
+
         }
+
         else if (v == btn_back)
         {
-            intent.setClass(this, JMainMenu.class);
+            intent.setClass(this, Mainmenu.class);
         }
         startActivity(intent);
+
     }
 
     @Override
