@@ -5,6 +5,8 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.view.SurfaceView;
 
+import java.util.Vector;
+
 public class Smurf implements EntityBase, Collidable{
 
     private Bitmap bmp = null;
@@ -17,7 +19,12 @@ public class Smurf implements EntityBase, Collidable{
     private boolean isDone = false;
     private boolean isInit = false;
 
+    private Vector2 min = new Vector2(0,0);
+    private Vector2 max = new Vector2(0,0);
+
     int ScreenWidth, ScreenHeight;
+
+    Collidable.hitbox_type HB_type = hitbox_type.HB_SPHERE;
 
     @Override
     public boolean IsDone() {
@@ -55,9 +62,6 @@ public class Smurf implements EntityBase, Collidable{
             // Move it to another random pos again
 
         }
-
-
-
     }
 
     @Override
@@ -111,6 +115,15 @@ public class Smurf implements EntityBase, Collidable{
     public float GetPosY() {
         return yPos;
     }
+
+    @Override
+    public Vector2 GetMin() { return min; }
+
+    @Override
+    public Vector2 GetMax() { return max; }
+
+    @Override
+    public Collidable.hitbox_type GetHBTYPE() { return HB_type; }
 
     @Override
     public float GetRadius() {

@@ -83,12 +83,56 @@ public class EntityManager {
                     if (otherEntity instanceof Collidable)
                     {
                         Collidable second = (Collidable) otherEntity;
-
-                        if (Collision.SphereToSphere(first.GetPosX(), first.GetPosY(), first.GetRadius(), second.GetPosX(), second.GetPosY(), second.GetRadius()))
+                        if (first.GetHBTYPE() == Collidable.hitbox_type.HB_BOX && second.GetHBTYPE() == Collidable.hitbox_type.HB_BOX) // if both are boxes
                         {
-                            first.OnHit(second);
-                            second.OnHit(first);
+                            Vector2 firstMax = first.GetMax();
+                            Vector2 firstMin = first.GetMin();
+                            Vector2 secondMax = second.GetMax();
+                            Vector2 secondMin = second.GetMin();
+                            if(Collision.BoxToBox(firstMin, firstMax,secondMin,secondMax))
+                            {
+                                first.OnHit(second);
+                                second.OnHit(first);
+                            }
                         }
+                        else if(first.GetHBTYPE() == Collidable.hitbox_type.HB_BOX || second.GetHBTYPE() == Collidable.hitbox_type.HB_BOX) // if one of them has a box hitbox
+                        {
+                            if(first.GetHBTYPE() == Collidable.hitbox_type.HB_BOX)
+                            {
+                                Vector2 firstMax = first.GetMax();
+                                Vector2 firstMin = first.GetMin();
+                                if(Collision.SphereToBox(second.GetPosX(), second.GetPosY(), second.GetRadius(), firstMin, firstMax))
+                                {
+                                    first.OnHit(second);
+                                    second.OnHit(first);
+                                }
+                            }
+                            if(first.GetHBTYPE() == Collidable.hitbox_type.HB_BOX)
+                            {
+                                Vector2 firstMax = first.GetMax();
+                                Vector2 firstMin = first.GetMin();
+                                if(Collision.SphereToBox(second.GetPosX(), second.GetPosY(), second.GetRadius(), firstMin, firstMax))
+                                {
+                                    first.OnHit(second);
+                                    second.OnHit(first);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (Collision.SphereToSphere(first.GetPosX(), first.GetPosY(), first.GetRadius(), second.GetPosX(), second.GetPosY(), second.GetRadius()))
+                            {
+                                first.OnHit(second);
+                                second.OnHit(first);
+                            }
+                        }
+
+
+                        //if (Collision.SphereToSphere(first.GetPosX(), first.GetPosY(), first.GetRadius(), second.GetPosX(), second.GetPosY(), second.GetRadius()))
+                        //{
+                        //    first.OnHit(second);
+                        //    second.OnHit(first);
+                        //}
                     }
                 }
             }
