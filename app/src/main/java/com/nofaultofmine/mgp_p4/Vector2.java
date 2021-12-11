@@ -85,4 +85,11 @@ public class Vector2 {
             this.y /= d;
         }
     }
+
+    public Vector2 Normalized()
+    {
+        Vector2 toReturn = this;
+        toReturn.Normalize();
+        return this;
+    }
 }

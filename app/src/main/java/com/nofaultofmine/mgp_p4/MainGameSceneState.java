@@ -25,6 +25,7 @@ public class MainGameSceneState implements StateBase {
     @Override
     public void OnEnter(SurfaceView _view)
     {
+        Vector2 pos = new Vector2(0,0);
         RenderBackground.Create(); // This is da entity
         RenderTextEntity.Create(); // Da text
         ResourceManager.Instance.Init(_view);
@@ -32,7 +33,9 @@ public class MainGameSceneState implements StateBase {
         // NPC.Create();
         PausebuttonEntity.Create();
         ReturnMenuButtonEntity.Create();
-        Smurf.Create(); //wk8<--Add Smurf
+        Smurf.Create();
+        pos = new Vector2(600,1100);
+        PlatformDefault.Create();
         // Example to include another Renderview for Pause Button
 
         intent = new Intent();

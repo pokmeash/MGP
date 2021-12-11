@@ -2,27 +2,41 @@ package com.nofaultofmine.mgp_p4;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Matrix;
 import android.view.SurfaceView;
+import android.graphics.Matrix;
+import java.util.Random;
 
-public class PlatformDefault implements EntityBase, Collidable{
-
+public class PlatformDefault implements EntityBase, Collidable {
     private Bitmap bmp = null;
+
+    private boolean isDone = false;
+    private float offset;
+    private Sprite spritesmurf = null;   // New on Week 8
 
     private float xPos = 0;
     private float xStart = 0;
     private float yPos = 0;
-    private float screenHeight = 0;
-    private float speed = 0;
-    private boolean isDone = false;
-    private boolean isInit = false;
-
     private Vector2 min = new Vector2(0,0);
     private Vector2 max = new Vector2(0,0);
 
-    int ScreenWidth, ScreenHeight;
+    private Vector2 fMin = new Vector2(0,0);
+    private Vector2 fMax = new Vector2(0,0);
 
-    Collidable.hitbox_type HB_type = hitbox_type.HB_SPHERE;
+    private Vector2 jumpVector;
+    private Vector2 gravityVector = new Vector2(0.0f,9.81f);
+    private Vector2 touchPos = new Vector2(0,0);
+
+    private float screenHeight = 0;
+    private float screenWidth =0;
+    private float speed = 0;
+    private boolean updateGravity;
+    private boolean isLetGo = false;
+    private boolean isJumping = false;
+
+    Random ranGen = new Random(); //wk 8=>Random Generator
+
+    Collidable.hitbox_type HB_type = hitbox_type.HB_BOX;
+
 
     @Override
     public boolean IsDone() {
@@ -36,30 +50,29 @@ public class PlatformDefault implements EntityBase, Collidable{
 
     @Override
     public void Init(SurfaceView _view) {
-
-        // New method using our own resource manager : Returns pre-loaded one if exists
         bmp = ResourceManager.Instance.GetBitmap(R.drawable.star);
 
-
-
-        isInit = true;
+        screenWidth = _view.getWidth();
+        screenHeight = _view.getHeight();
     }
 
     @Override
-    public void Update(float _dt) {
+    public void Update(float _dt)
+    {
 
-        // Do nothing if it is not in the main game state
-        if (StateManager.Instance.GetCurrentState() != "MainGame")
-            return;
+    }
 
+    public void SetPosition(Vector2 pos)
+    {
+        xPos = pos.x;
+        yPos = pos.y;
+        fMin = new Vector2(-150f,-10f);
+        fMax = new Vector2(150f,10f);
 
-
-        // Check out of screen
-        if (xPos <= -bmp.getHeight() * 0.5f){
-
-            // Move it to another random pos again
-
-        }
+        min.x = xPos + fMin.x;
+        min.y = yPos + fMin.y;
+        max.x = xPos + fMax.x;
+        max.y = yPos + fMax.y;
     }
 
     @Override
@@ -67,41 +80,52 @@ public class PlatformDefault implements EntityBase, Collidable{
 
         Matrix transform = new Matrix();
         transform.postTranslate(-bmp.getWidth() * 0.5f, -bmp.getHeight() * 0.5f);
+        transform.postTranslate(min.x, min.y);
+        _canvas.drawBitmap(bmp, transform, null);
+        transform.setTranslate(0,0);
 
-        transform.postTranslate(xPos, yPos);
+        transform.postTranslate(-bmp.getWidth() * 0.5f, -bmp.getHeight() * 0.5f);
+        transform.postTranslate(min.x, max.y);
+        _canvas.drawBitmap(bmp, transform, null);
+        transform.setTranslate(0,0);
+
+        transform.postTranslate(-bmp.getWidth() * 0.5f, -bmp.getHeight() * 0.5f);
+        transform.postTranslate(max.x, min.y);
+        _canvas.drawBitmap(bmp, transform, null);
+        transform.setTranslate(0,0);
+
+        transform.postTranslate(-bmp.getWidth() * 0.5f, -bmp.getHeight() * 0.5f);
+        transform.postTranslate(max.x, max.y);
         _canvas.drawBitmap(bmp, transform, null);
 
     }
 
     @Override
     public boolean IsInit() {
-
-        return isInit;
+        return spritesmurf != null;
     }
 
     @Override
     public int GetRenderLayer() {
-        return LayerConstants.STAR_LAYER;
+        return LayerConstants.SMURF_LAYER;
     }
 
     @Override
-    public void SetRenderLayer(int _newLayer) {
-        return;
-    }
+    public void SetRenderLayer(int _newLayer) { }
 
     @Override
-    public ENTITY_TYPE GetEntityType(){ return ENTITY_TYPE.ENT_DEFAULT;}
+    public ENTITY_TYPE GetEntityType() {
+        return ENTITY_TYPE.ENT_SMURF;
+    }
 
-    public static PlatformDefault Create()
-    {
-        PlatformDefault result = new PlatformDefault();
-        EntityManager.Instance.AddEntity(result, ENTITY_TYPE.ENT_DEFAULT);
+    public static PlatformDefault Create() {
+        PlatformDefault result = new PlatformDefault(); //wek 8
+        EntityManager.Instance.AddEntity(result, ENTITY_TYPE.ENT_PLATFORM);
         return result;
     }
-
     @Override
     public String GetType() {
-        return "DefPlatformEntity";
+        return "defPlatform";
     }
 
     @Override
@@ -129,11 +153,9 @@ public class PlatformDefault implements EntityBase, Collidable{
     }
 
     @Override
-    public void OnHit(Collidable _other) {
-        if(_other.GetType() != this.GetType()
-                && _other.GetType() !=  "DefPlatformEntity") {  // Another entity
-            SetIsDone(true);
-        }
-    }
+    public void OnHit(Collidable _other)
+    {
 
+    }
 }
+

@@ -13,6 +13,7 @@ public interface EntityBase
         ENT_SMURF,
         ENT_PAUSE,
         ENT_TEXT,
+         ENT_PLATFORM,
         //ENT_NEXT,
         ENT_DEFAULT,
     }
