@@ -1,13 +1,12 @@
 package com.nofaultofmine.mgp_p4;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
-import android.util.DisplayMetrics;
 import android.view.SurfaceView;
 
-public class Player implements EntityBase, Collidable{
+public class PlatformDefault implements EntityBase, Collidable{
+
     private Bitmap bmp = null;
 
     private float xPos = 0;
@@ -18,14 +17,12 @@ public class Player implements EntityBase, Collidable{
     private boolean isDone = false;
     private boolean isInit = false;
 
-    private boolean updateGravity = true;
-
-    private Vector2 min = new Vector2(0.5f,0.5f);
-    private Vector2 max = new Vector2(0.5f,0.5f);
+    private Vector2 min = new Vector2(0,0);
+    private Vector2 max = new Vector2(0,0);
 
     int ScreenWidth, ScreenHeight;
 
-    Collidable.hitbox_type HB_type = hitbox_type.HB_BOX;
+    Collidable.hitbox_type HB_type = hitbox_type.HB_SPHERE;
 
     @Override
     public boolean IsDone() {
@@ -95,16 +92,16 @@ public class Player implements EntityBase, Collidable{
     @Override
     public ENTITY_TYPE GetEntityType(){ return ENTITY_TYPE.ENT_DEFAULT;}
 
-    public static Player Create()
+    public static PlatformDefault Create()
     {
-        Player result = new Player();
+        PlatformDefault result = new PlatformDefault();
         EntityManager.Instance.AddEntity(result, ENTITY_TYPE.ENT_DEFAULT);
         return result;
     }
 
     @Override
     public String GetType() {
-        return "StarEntity";
+        return "DefPlatformEntity";
     }
 
     @Override
@@ -132,14 +129,10 @@ public class Player implements EntityBase, Collidable{
     }
 
     @Override
-    public void OnHit(Collidable _other)
-    {
-        if (_other.GetType() != this.GetType())
-        {
-            if (_other.GetPosY() < GetPosY())
-            {
-                updateGravity = false;
-            }
+    public void OnHit(Collidable _other) {
+        if(_other.GetType() != this.GetType()
+                && _other.GetType() !=  "DefPlatformEntity") {  // Another entity
+            SetIsDone(true);
         }
     }
 

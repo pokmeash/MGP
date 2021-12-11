@@ -1,15 +1,31 @@
 package com.nofaultofmine.mgp_p4;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.view.SurfaceView;
 import java.util.Random;
 
-public class Smurf implements EntityBase {
+public class Smurf implements EntityBase, Collidable {
+    private Bitmap bmp = null;
+
     private boolean isDone = false;
-    private float xPos, yPos, offset;
+    private float offset;
     private Sprite spritesmurf = null;   // New on Week 8
 
+    private float xPos = 0;
+    private float xStart = 0;
+    private float yPos = 0;
+    private Vector2 min = new Vector2(0.5f,0.5f);
+    private Vector2 max = new Vector2(0.5f,0.5f);
+
+    private float screenHeight = 0;
+    private float speed = 0;
+    private boolean updateGravity;
+
     Random ranGen = new Random(); //wk 8=>Random Generator
+
+    Collidable.hitbox_type HB_type = hitbox_type.HB_BOX;
+
 
     @Override
     public boolean IsDone() {
@@ -64,5 +80,45 @@ public class Smurf implements EntityBase {
         Smurf result = new Smurf(); //wek 8
         EntityManager.Instance.AddEntity(result, ENTITY_TYPE.ENT_SMURF); //wk8=>update ent tyep
         return result;
+    }
+    @Override
+    public String GetType() {
+        return "StarEntity";
+    }
+
+    @Override
+    public float GetPosX() {
+        return xPos;
+    }
+
+    @Override
+    public float GetPosY() {
+        return yPos;
+    }
+
+    @Override
+    public Vector2 GetMin() { return min; }
+
+    @Override
+    public Vector2 GetMax() { return max; }
+
+    @Override
+    public Collidable.hitbox_type GetHBTYPE() { return HB_type; }
+
+    @Override
+    public float GetRadius() {
+        return bmp.getWidth();
+    }
+
+    @Override
+    public void OnHit(Collidable _other)
+    {
+        if (_other.GetType() != this.GetType())
+        {
+            if (_other.GetPosY() < GetPosY())
+            {
+                updateGravity = false;
+            }
+        }
     }
 }

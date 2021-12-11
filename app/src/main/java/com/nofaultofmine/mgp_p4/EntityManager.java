@@ -126,17 +126,9 @@ public class EntityManager {
                                 second.OnHit(first);
                             }
                         }
-
-
-                        //if (Collision.SphereToSphere(first.GetPosX(), first.GetPosY(), first.GetRadius(), second.GetPosX(), second.GetPosY(), second.GetRadius()))
-                        //{
-                        //    first.OnHit(second);
-                        //    second.OnHit(first);
-                        //}
                     }
                 }
             }
-
             // Check if need to clean up
             if (currEntity.IsDone()) {
                 removalList.add(currEntity);
