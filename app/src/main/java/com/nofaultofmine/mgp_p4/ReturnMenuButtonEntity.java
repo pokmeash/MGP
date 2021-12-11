@@ -1,5 +1,6 @@
 package com.nofaultofmine.mgp_p4;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -49,33 +50,32 @@ public class ReturnMenuButtonEntity implements EntityBase{
 
     @Override
     public void Update(float _dt) {
-        buttonDelay += _dt;
+       buttonDelay += _dt;
 
-        if (TouchManager.Instance.HasTouch()) {
-            if (TouchManager.Instance.IsDown() && !Paused) {
-                // Check Collision of button here!!
-                float imgRadius = ScaledbmpP.getHeight() * 0.5f;
+       if (TouchManager.Instance.HasTouch()) {
+           if (TouchManager.Instance.IsDown() && !Paused) {
+               // Check Collision of button here!!
+               float imgRadius = ScaledbmpP.getHeight() * 0.5f;
 
-                if (Collision.SphereToSphere(TouchManager.Instance.GetPosX(), TouchManager.Instance.GetPosY(), 0.0f, xPos, yPos, imgRadius) && buttonDelay >= 0.25) {
-                    Paused = true;
-                    buttonDelay = 0;
-                    StateManager.Instance.ChangeState("Endpage");
-                }
-            }
-        } else
-            Paused = false;
-
+               if (Collision.SphereToSphere(TouchManager.Instance.GetPosX(), TouchManager.Instance.GetPosY(), 0.0f, xPos, yPos, imgRadius) && buttonDelay >= 0.25) {
+                   Paused = true;
+                   buttonDelay = 0;
+                   GameSystem.Instance.SetIsReturnMenu(!GameSystem.Instance.GetIsReturnMenu());
+               }
+           }
+       } else
+           Paused = false;
     }
 
     @Override
     public void Render(Canvas _canvas) {
-
-        if (Paused == false)
-            _canvas.drawBitmap(ScaledbmpP,xPos - ScaledbmpP.getWidth() * 0.5f, yPos - ScaledbmpP.getHeight() * 0.5f, null);
-        else
-            _canvas.drawBitmap(ScaledbmpUP,xPos - ScaledbmpUP.getWidth() * 0.5f, yPos - ScaledbmpUP.getHeight() * 0.5f, null);
-
-
+        if (GameSystem.Instance.GetIsPaused())
+        {
+            if (Paused == false)
+                _canvas.drawBitmap(ScaledbmpP,xPos - ScaledbmpP.getWidth() * 0.5f, yPos - ScaledbmpP.getHeight() * 0.5f, null);
+            else
+                _canvas.drawBitmap(ScaledbmpUP,xPos - ScaledbmpUP.getWidth() * 0.5f, yPos - ScaledbmpUP.getHeight() * 0.5f, null);
+        }
     }
 
     @Override
@@ -95,7 +95,7 @@ public class ReturnMenuButtonEntity implements EntityBase{
     }
 
     @Override
-    public ENTITY_TYPE GetEntityType(){ return ENTITY_TYPE.ENT_PAUSE;}
+    public ENTITY_TYPE GetEntityType(){ return ENTITY_TYPE.ENT_RETURNMENU;}
 
     public static ReturnMenuButtonEntity Create()
     {

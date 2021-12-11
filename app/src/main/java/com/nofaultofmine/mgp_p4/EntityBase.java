@@ -15,7 +15,7 @@ public interface EntityBase
         ENT_TEXT,
          ENT_PLATFORM,
         //ENT_NEXT,
-        ENT_DEFAULT,
+        ENT_DEFAULT, ENT_RETURNMENU,
     }
 
     boolean IsDone();

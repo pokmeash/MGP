@@ -55,7 +55,10 @@ public class MainGameSceneState implements StateBase {
 
     @Override
     public void Update(float _dt) {
-
+        if (GameSystem.Instance.GetIsReturnMenu())
+        {
+            StateManager.Instance.ChangeState("Endpage"); // Default is like a loading page
+        }
         EntityManager.Instance.Update(_dt);
 
     }

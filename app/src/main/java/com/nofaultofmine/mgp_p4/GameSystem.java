@@ -11,6 +11,7 @@ public class GameSystem {
 
     // Game stuff
     private boolean isPaused = false;
+    private boolean ReturnMenu = false;
 
     // Singleton Pattern : Blocks others from creating
     private GameSystem()
@@ -38,6 +39,16 @@ public class GameSystem {
     public boolean GetIsPaused()
     {
         return isPaused;
+    }
+
+    public void SetIsReturnMenu(boolean _newReturnMenu)
+    {
+        ReturnMenu = _newReturnMenu;
+    }
+
+    public boolean GetIsReturnMenu()
+    {
+        return ReturnMenu;
     }
 
 }
