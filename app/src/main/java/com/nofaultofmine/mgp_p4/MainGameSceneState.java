@@ -31,7 +31,8 @@ public class MainGameSceneState implements StateBase {
         // Player.Create();
         // NPC.Create();
         PausebuttonEntity.Create();
-        //ReturnMenuButtonEntity.Create();
+        ReturnMenuButtonEntity.Create();
+        Smurf.Create(); //wk8<--Add Smurf
         // Example to include another Renderview for Pause Button
 
         intent = new Intent();

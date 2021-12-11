@@ -54,6 +54,7 @@ public class Splashpage extends Activity
         }
         return true;
     }
+
    @Override
     protected void onPause(){
         super.onPause();
@@ -68,6 +69,7 @@ public class Splashpage extends Activity
     protected void onDestroy(){
         super.onDestroy();
     }
+
 
     //End here with the 3 methods for the android life cycle of an activity class
 }

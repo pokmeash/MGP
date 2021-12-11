@@ -58,10 +58,9 @@ public class ReturnMenuButtonEntity implements EntityBase{
 
                 if (Collision.SphereToSphere(TouchManager.Instance.GetPosX(), TouchManager.Instance.GetPosY(), 0.0f, xPos, yPos, imgRadius) && buttonDelay >= 0.25) {
                     Paused = true;
-
+                    buttonDelay = 0;
+                    StateManager.Instance.ChangeState("Endpage");
                 }
-                buttonDelay = 0;
-                StateManager.Instance.ChangeState("Mainmenu");
             }
         } else
             Paused = false;

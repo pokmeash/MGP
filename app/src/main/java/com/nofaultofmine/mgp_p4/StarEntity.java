@@ -122,7 +122,22 @@ public class StarEntity implements EntityBase, Collidable{
         return bmp.getWidth();
     }
 
-   @Override
+    @Override
+    public Vector2 GetMin() {
+        return null;
+    }
+
+    @Override
+    public Vector2 GetMax() {
+        return null;
+    }
+
+    @Override
+    public hitbox_type GetHBTYPE() {
+        return null;
+    }
+
+    @Override
     public void OnHit(Collidable _other) {
         if(_other.GetType() != this.GetType()
                 && _other.GetType() !=  "SmurfEntity") {  // Another entity

@@ -13,7 +13,7 @@ import android.content.Intent;
 
 // Created by TanSiewLan2021
 
-public class Mainmenu extends Activity implements OnClickListener, StateBase {  //Using StateBase class
+public class Endpage extends Activity implements OnClickListener, StateBase {  //Using StateBase class
 
     //Define buttons
     private Button btn_start;
@@ -30,7 +30,7 @@ public class Mainmenu extends Activity implements OnClickListener, StateBase {  
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        setContentView(R.layout.mainmenu);
+        setContentView(R.layout.endpage);
 
         btn_start = (Button)findViewById(R.id.btn_start);
         btn_start.setOnClickListener(this); //Set Listener to this button --> Start Button
@@ -38,7 +38,7 @@ public class Mainmenu extends Activity implements OnClickListener, StateBase {  
         btn_back = (Button)findViewById(R.id.btn_back);
         btn_back.setOnClickListener(this); //Set Listener to this button --> Back Button
 
-		  StateManager.Instance.AddState(new Mainmenu());
+        StateManager.Instance.AddState(new Endpage());
     }
 
     @Override
@@ -61,7 +61,8 @@ public class Mainmenu extends Activity implements OnClickListener, StateBase {  
 
         else if (v == btn_back)
         {
-            intent.setClass(this, Endpage.class);
+            intent.setClass(this, Mainmenu.class);
+            StateManager.Instance.ChangeState("Mainmenu"); // Default is like a loading page
         }
         startActivity(intent);
 
@@ -70,22 +71,22 @@ public class Mainmenu extends Activity implements OnClickListener, StateBase {  
     @Override
     public void Render(Canvas _canvas) {
     }
-	
+
     @Override
     public void OnEnter(SurfaceView _view) {
     }
-	
+
     @Override
     public void OnExit() {
     }
-	
+
     @Override
     public void Update(float _dt) {
     }
-	
+
     @Override
     public String GetName() {
-        return "Mainmenu";
+        return "Endpage";
     }
 
     @Override
@@ -103,3 +104,4 @@ public class Mainmenu extends Activity implements OnClickListener, StateBase {  
         super.onDestroy();
     }
 }
+

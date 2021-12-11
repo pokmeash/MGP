@@ -3,6 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/pokme/Desktop/School/Mobile/MGP_P4/MGP_P4/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.37025641025641026" />
+        <entry key="..\:/Users/pokme/Desktop/School/Mobile/MGP_P4/MGP_P4/app/src/main/res/drawable/ic_launcher_background.xml" value="0.37025641025641026" />
+        <entry key="..\:/Users/pokme/Desktop/School/Mobile/MGP_P4/MGP_P4/app/src/main/res/layout/Endpage.xml" value="0.29936594202898553" />
+        <entry key="..\:/Users/pokme/Desktop/School/Mobile/MGP_P4/MGP_P4/app/src/main/res/layout/endpage.xml" value="0.2916666666666667" />
         <entry key="..\:/Users/pokme/Desktop/School/Mobile/MGP_P4/MGP_P4/app/src/main/res/layout/mainmenu.xml" value="0.22" />
         <entry key="..\:/Users/pokme/Desktop/School/Mobile/MGP_P4/MGP_P4/app/src/main/res/layout/splashpage.xml" value="0.23097826086956522" />
       </map>

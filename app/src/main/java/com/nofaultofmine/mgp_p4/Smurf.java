@@ -1,30 +1,15 @@
 package com.nofaultofmine.mgp_p4;
 
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Matrix;
 import android.view.SurfaceView;
+import java.util.Random;
 
-import java.util.Vector;
-
-public class Smurf implements EntityBase, Collidable{
-
-    private Bitmap bmp = null;
-
-    private float xPos = 0;
-    private float xStart = 0;
-    private float yPos = 0;
-    private float screenHeight = 0;
-    private float speed = 0;
+public class Smurf implements EntityBase {
     private boolean isDone = false;
-    private boolean isInit = false;
+    private float xPos, yPos, offset;
+    private Sprite spritesmurf = null;   // New on Week 8
 
-    private Vector2 min = new Vector2(0,0);
-    private Vector2 max = new Vector2(0,0);
-
-    int ScreenWidth, ScreenHeight;
-
-    Collidable.hitbox_type HB_type = hitbox_type.HB_SPHERE;
+    Random ranGen = new Random(); //wk 8=>Random Generator
 
     @Override
     public boolean IsDone() {
@@ -38,104 +23,46 @@ public class Smurf implements EntityBase, Collidable{
 
     @Override
     public void Init(SurfaceView _view) {
-
-        // New method using our own resource manager : Returns pre-loaded one if exists
-        bmp = ResourceManager.Instance.GetBitmap(R.drawable.star);
-
-
-
-        isInit = true;
+        //week 8 => create new sprite instance
+        spritesmurf = new Sprite(ResourceManager.Instance.GetBitmap(R.drawable.smurf_sprite),4,4, 16 );
+        //week 8=>randomise position
+        xPos = ranGen.nextFloat() * _view.getWidth();
+        yPos = ranGen.nextFloat() * _view.getHeight();
     }
 
     @Override
     public void Update(float _dt) {
-
-        // Do nothing if it is not in the main game state
-        if (StateManager.Instance.GetCurrentState() != "MainGame")
-            return;
-
-
-
-        // Check out of screen
-        if (xPos <= -bmp.getHeight() * 0.5f){
-
-            // Move it to another random pos again
-
-        }
+        // wk8=> update sprite animation frame based on timing
+        spritesmurf.Update(_dt);
     }
 
     @Override
     public void Render(Canvas _canvas) {
-
-        Matrix transform = new Matrix();
-        transform.postTranslate(-bmp.getWidth() * 0.5f, -bmp.getHeight() * 0.5f);
-
-        transform.postTranslate(xPos, yPos);
-        _canvas.drawBitmap(bmp, transform, null);
-
+        //wk 8=>draw sprite using xpos,ypos, must cast in int
+        spritesmurf.Render(_canvas, (int)xPos, (int)yPos);
     }
 
     @Override
     public boolean IsInit() {
-
-        return isInit;
-    }
+        return spritesmurf != null;
+    } //wk 8=>update to ret sprite variable
 
     @Override
     public int GetRenderLayer() {
-        return LayerConstants.STAR_LAYER;
-    }
+        return LayerConstants.SMURF_LAYER;
+    } //wk 8=>update smurf layer
 
     @Override
-    public void SetRenderLayer(int _newLayer) {
-        return;
-    }
+    public void SetRenderLayer(int _newLayer) { }
 
     @Override
-    public ENTITY_TYPE GetEntityType(){ return ENTITY_TYPE.ENT_DEFAULT;}
+    public ENTITY_TYPE GetEntityType() {
+        return ENTITY_TYPE.ENT_SMURF;
+    } //Week 8=>Update ent type
 
-    public static StarEntity Create()
-    {
-        StarEntity result = new StarEntity();
-        EntityManager.Instance.AddEntity(result, ENTITY_TYPE.ENT_DEFAULT);
+    public static Smurf Create() {
+        Smurf result = new Smurf(); //wek 8
+        EntityManager.Instance.AddEntity(result, ENTITY_TYPE.ENT_SMURF); //wk8=>update ent tyep
         return result;
     }
-
-    @Override
-    public String GetType() {
-        return "StarEntity";
-    }
-
-    @Override
-    public float GetPosX() {
-        return xPos;
-    }
-
-    @Override
-    public float GetPosY() {
-        return yPos;
-    }
-
-    @Override
-    public Vector2 GetMin() { return min; }
-
-    @Override
-    public Vector2 GetMax() { return max; }
-
-    @Override
-    public Collidable.hitbox_type GetHBTYPE() { return HB_type; }
-
-    @Override
-    public float GetRadius() {
-        return bmp.getWidth();
-    }
-
-    @Override
-    public void OnHit(Collidable _other) {
-        if(_other.GetType() != this.GetType()
-                && _other.GetType() !=  "SmurfEntity") {  // Another entity
-            SetIsDone(true);
-        }
-    }
-
 }
