@@ -15,7 +15,7 @@ public class EntityManager {
     private LinkedList<EntityBase> entityList = new LinkedList<EntityBase>();
     private SurfaceView view = null;
 
-    public Collidable prev;
+    public Collidable prev = null;
 
     private EntityManager()
     {
@@ -28,7 +28,6 @@ public class EntityManager {
 
     public void Update(float _dt)
     {
-        boolean toMove = false;
         LinkedList<EntityBase> removalList = new LinkedList<EntityBase>();
 
         // Update all
@@ -94,19 +93,34 @@ public class EntityManager {
                             Vector2 secondMin = second.GetMin();
                             if(Collision.BoxToBox(firstMin, firstMax,secondMin,secondMax))
                             {
-                                if(first.GetType() == "PLAYER" || second.GetType() == "PLAYER")
-                                {
-                                    if(first.GetType() == "PLAYER")
-                                    {
-                                        prev = second;
-                                    }
-                                    if(second.GetType() == "PLAYER")
-                                    {
-                                        prev = first;
-                                    }
-                                    toMove = true;
-                                }
-
+                                //if(first.GetType() == "PLAYER" || second.GetType() == "PLAYER")
+                                //{
+                                //    if(first.GetType() == "PLAYER")
+                                //    {
+                                //        if(first instanceof Smurf)
+                                //        {
+                                //            Smurf player = (Smurf)first;
+                                //            if(player.hasLanded)
+                                //            {
+                                //                toMove = true;
+                                //            }
+                                //        }
+                                //        prev = second;
+                                //    }
+                                //    if(second.GetType() == "PLAYER")
+                                //    {
+                                //        if(second instanceof Smurf)
+                                //        {
+                                //            Smurf player = (Smurf)first;
+                                //            if(player.hasLanded)
+                                //            {
+                                //                toMove = true;
+                                //            }
+                                //        }
+                                //        prev = first;
+                                //    }
+                                //}
+//
                                 first.OnHit(second);
                                 second.OnHit(first);
                             }
@@ -151,18 +165,20 @@ public class EntityManager {
             }
         }
 
-        //if(toMove)
-        //{
-        //    for (int i = 0; i < entityList.size(); ++i)
-        //    {
-        //        EntityBase x = entityList.get(i);
-        //        Collidable curEntity = (Collidable)x;
-        //        if(curEntity.GetType() == "Platform" || curEntity.GetType() == "PLAYER")
-        //        {
-        //            curEntity.SetPosition(new Vector2(curEntity.GetPosX(), curEntity.GetPosY()).Minus(new Vector2(0,300)));
-        //        }
-        //    }
-        //}
+        for (int i = 0; i < entityList.size(); ++i)
+        {
+            EntityBase x = entityList.get(i);
+            if (x instanceof Collidable)
+            {
+                Collidable curEntity = (Collidable) x;
+                if (curEntity.GetType() == "Platform" || curEntity.GetType() == "PLAYER") {
+                    curEntity.SetPosition(new Vector2(curEntity.GetPosX(), curEntity.GetPosY()).Plus(new Vector2(0, 2.f)));
+                }
+                if (curEntity.GetType() == "Platform" && curEntity.GetPosY() > view.getHeight()) {
+                    curEntity.SetPosition(new Vector2(curEntity.GetPosX(),0));
+                }
+            }
+        }
 
         // Remove all entities that are done
         for (EntityBase currEntity : removalList) {

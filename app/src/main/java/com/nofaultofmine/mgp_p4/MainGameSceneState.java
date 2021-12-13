@@ -43,10 +43,13 @@ public class MainGameSceneState implements StateBase {
         Smurf.Create();
 
         PlatformDefault platform1 = PlatformDefault.Create();
-        platform1.SetPosition(screenCenter.Plus(new Vector2(250,100)));
+        platform1.SetPosition(screenCenter.Plus(new Vector2(250,0)));
 
         PlatformDefault platform2 = PlatformDefault.Create();
-        platform2.SetPosition(screenCenter.Minus(new Vector2(400,(screenCenter.y - 300))));
+        platform2.SetPosition(screenCenter.Minus(new Vector2(400,screenCenter.y - 200)));
+
+        PlatformDefault platform4 = PlatformDefault.Create();
+        platform4.SetPosition(screenCenter.Plus(new Vector2(-100,(screenCenter.y - 350))));
 
 
         // Example to include another Renderview for Pause Button

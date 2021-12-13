@@ -22,7 +22,7 @@ public class Smurf implements EntityBase, Collidable {
     private Vector2 fMin = new Vector2(0,0);
     private Vector2 fMax = new Vector2(0,0);
 
-    private Vector2 jumpVector;
+    private Vector2 jumpVector = new Vector2(0,0);
     private Vector2 RollbackPos = new Vector2(0,0);
     private Vector2 gravityVector = new Vector2(0.0f,9.81f);
     private Vector2 touchPos = new Vector2(0,0);
@@ -31,9 +31,9 @@ public class Smurf implements EntityBase, Collidable {
     private float screenWidth =0;
     private float speed = 0;
     private boolean updateGravity;
-    private boolean isLetGo = false;
+    private boolean isLetGo = true;
     private boolean isJumping = false;
-    private boolean hasLanded = false;
+    public boolean hasLanded = false;
 
     Random ranGen = new Random(); //wk 8=>Random Generator
 
@@ -118,11 +118,6 @@ public class Smurf implements EntityBase, Collidable {
             {
                 jumpVector.y = 150;
             }
-            if(yPos > screenHeight/2 + 300)
-            {
-                isJumping = false;
-                isLetGo = false;
-            }
         }
 
 
@@ -138,17 +133,17 @@ public class Smurf implements EntityBase, Collidable {
         //transform.postTranslate(min.x, min.y);
         //_canvas.drawBitmap(bmp, transform, null);
         //transform.setTranslate(0,0);
-//
+////
         //transform.postTranslate(-bmp.getWidth() * 0.5f, -bmp.getHeight() * 0.5f);
         //transform.postTranslate(min.x, max.y);
         //_canvas.drawBitmap(bmp, transform, null);
         //transform.setTranslate(0,0);
-//
+////
         //transform.postTranslate(-bmp.getWidth() * 0.5f, -bmp.getHeight() * 0.5f);
         //transform.postTranslate(max.x, min.y);
         //_canvas.drawBitmap(bmp, transform, null);
         //transform.setTranslate(0,0);
-//
+////
         //transform.postTranslate(-bmp.getWidth() * 0.5f, -bmp.getHeight() * 0.5f);
         //transform.postTranslate(max.x, max.y);
         //_canvas.drawBitmap(bmp, transform, null);
@@ -236,8 +231,8 @@ public class Smurf implements EntityBase, Collidable {
     {
         xPos = pos.x;
         yPos = pos.y;
-        fMin = new Vector2(-150f,-10f);
-        fMax = new Vector2(150f,10f);
+        //fMin = new Vector2(-150f,-10f);
+        //fMax = new Vector2(150f,10f);
 
         min.x = xPos + fMin.x;
         min.y = yPos + fMin.y;
