@@ -13,14 +13,14 @@ public class PlatformDefault implements EntityBase, Collidable {
     private float offset;
     private Sprite spritesmurf = null;   // New on Week 8
 
-    private float xPos = 0;
-    private float xStart = 0;
-    private float yPos = 0;
-    private Vector2 min = new Vector2(0,0);
-    private Vector2 max = new Vector2(0,0);
+    public float xPos = 0;
+    public float xStart = 0;
+    public float yPos = 0;
+    public Vector2 min = new Vector2(0,0);
+    public Vector2 max = new Vector2(0,0);
 
-    private Vector2 fMin = new Vector2(0,0);
-    private Vector2 fMax = new Vector2(0,0);
+    public Vector2 fMin = new Vector2(0,0);
+    public Vector2 fMax = new Vector2(0,0);
 
     private Vector2 jumpVector;
     private Vector2 gravityVector = new Vector2(0.0f,9.81f);
@@ -59,9 +59,12 @@ public class PlatformDefault implements EntityBase, Collidable {
     @Override
     public void Update(float _dt)
     {
-
+        System.out.println("HI AN EXCLUSIVE PLATFORM HERE");
+        System.out.println(this.xPos);
+        System.out.println(this.yPos);
     }
 
+    @Override
     public void SetPosition(Vector2 pos)
     {
         xPos = pos.x;
@@ -73,31 +76,40 @@ public class PlatformDefault implements EntityBase, Collidable {
         min.y = yPos + fMin.y;
         max.x = xPos + fMax.x;
         max.y = yPos + fMax.y;
-    }
 
+        System.out.println(this.xPos);
+        System.out.println(this.yPos);
+        System.out.println(pos.x);
+        System.out.println(pos.y);
+    }
     @Override
     public void Render(Canvas _canvas) {
 
         Matrix transform = new Matrix();
+        transform.setScale(4.9f,1.3f);
         transform.postTranslate(-bmp.getWidth() * 0.5f, -bmp.getHeight() * 0.5f);
-        transform.postTranslate(min.x, min.y);
+        transform.postTranslate(min.x, yPos);
         _canvas.drawBitmap(bmp, transform, null);
-        transform.setTranslate(0,0);
+        //transform.setTranslate(0,0);
 
-        transform.postTranslate(-bmp.getWidth() * 0.5f, -bmp.getHeight() * 0.5f);
-        transform.postTranslate(min.x, max.y);
-        _canvas.drawBitmap(bmp, transform, null);
-        transform.setTranslate(0,0);
-
-        transform.postTranslate(-bmp.getWidth() * 0.5f, -bmp.getHeight() * 0.5f);
-        transform.postTranslate(max.x, min.y);
-        _canvas.drawBitmap(bmp, transform, null);
-        transform.setTranslate(0,0);
-
-        transform.postTranslate(-bmp.getWidth() * 0.5f, -bmp.getHeight() * 0.5f);
-        transform.postTranslate(max.x, max.y);
-        _canvas.drawBitmap(bmp, transform, null);
-
+        //transform.postTranslate(-bmp.getWidth() * 0.5f, -bmp.getHeight() * 0.5f);
+        //transform.postTranslate(min.x, min.y);
+        //_canvas.drawBitmap(bmp, transform, null);
+        //transform.setTranslate(0,0);
+//
+        //transform.postTranslate(-bmp.getWidth() * 0.5f, -bmp.getHeight() * 0.5f);
+        //transform.postTranslate(min.x, max.y);
+        //_canvas.drawBitmap(bmp, transform, null);
+        //transform.setTranslate(0,0);
+//
+        //transform.postTranslate(-bmp.getWidth() * 0.5f, -bmp.getHeight() * 0.5f);
+        //transform.postTranslate(max.x, min.y);
+        //_canvas.drawBitmap(bmp, transform, null);
+        //transform.setTranslate(0,0);
+//
+        //transform.postTranslate(-bmp.getWidth() * 0.5f, -bmp.getHeight() * 0.5f);
+        //transform.postTranslate(max.x, max.y);
+        //_canvas.drawBitmap(bmp, transform, null);
     }
 
     @Override
@@ -123,9 +135,15 @@ public class PlatformDefault implements EntityBase, Collidable {
         EntityManager.Instance.AddEntity(result, ENTITY_TYPE.ENT_PLATFORM);
         return result;
     }
+
+    public void AddToEM()
+    {
+
+    }
+
     @Override
     public String GetType() {
-        return "defPlatform";
+        return "Platform";
     }
 
     @Override

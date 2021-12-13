@@ -7,6 +7,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.SurfaceView;
 
+import java.util.LinkedList;
+import java.util.Vector;
+
 // Created by TanSiewLan2021
 
 public class MainGameSceneState implements StateBase {
@@ -25,7 +28,11 @@ public class MainGameSceneState implements StateBase {
     @Override
     public void OnEnter(SurfaceView _view)
     {
-        Vector2 pos = new Vector2(0,0);
+        Vector2 screenCenter = new Vector2(_view.getWidth() / 2,_view.getHeight() / 2);
+        System.out.println("screenCenter.x");
+        System.out.println(screenCenter.x);
+        System.out.println("screenCenter.y");
+        System.out.println(screenCenter.y);
         RenderBackground.Create(); // This is da entity
         RenderTextEntity.Create(); // Da text
         ResourceManager.Instance.Init(_view);
@@ -34,8 +41,14 @@ public class MainGameSceneState implements StateBase {
         PausebuttonEntity.Create();
         ReturnMenuButtonEntity.Create();
         Smurf.Create();
-        pos = new Vector2(600,1100);
-        PlatformDefault.Create();
+
+        PlatformDefault platform1 = PlatformDefault.Create();
+        platform1.SetPosition(screenCenter.Plus(new Vector2(250,100)));
+
+        PlatformDefault platform2 = PlatformDefault.Create();
+        platform2.SetPosition(screenCenter.Minus(new Vector2(400,(screenCenter.y - 300))));
+
+
         // Example to include another Renderview for Pause Button
 
         intent = new Intent();

@@ -20,6 +20,8 @@ public interface Collidable {
 
     hitbox_type GetHBTYPE();
 
+    void SetPosition(Vector2 pos);
+
     void OnHit(Collidable _other);
 }
 

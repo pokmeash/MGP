@@ -180,7 +180,7 @@ public class Smurf implements EntityBase, Collidable {
     }
     @Override
     public String GetType() {
-        return "smurfEntity";
+        return "PLAYER";
     }
 
     @Override
@@ -229,5 +229,24 @@ public class Smurf implements EntityBase, Collidable {
                 }
             }
         }
+    }
+
+    @Override
+    public void SetPosition(Vector2 pos)
+    {
+        xPos = pos.x;
+        yPos = pos.y;
+        fMin = new Vector2(-150f,-10f);
+        fMax = new Vector2(150f,10f);
+
+        min.x = xPos + fMin.x;
+        min.y = yPos + fMin.y;
+        max.x = xPos + fMax.x;
+        max.y = yPos + fMax.y;
+
+        System.out.println(this.xPos);
+        System.out.println(this.yPos);
+        System.out.println(pos.x);
+        System.out.println(pos.y);
     }
 }
