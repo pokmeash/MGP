@@ -6,6 +6,7 @@ package com.nofaultofmine.mgp_p4;
 //adding comment
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.Window;
@@ -36,6 +37,15 @@ public class GamePage extends Activity {
         int y = (int) event.getY();
 
         TouchManager.Instance.Update(x, y, event.getAction());
+
+        Intent intent = new Intent();
+
+        if (GameSystem.Instance.GetIsReturnMenu())
+        {
+            GameSystem.Instance.SetIsReturnMenu(!GameSystem.Instance.GetIsReturnMenu());
+            intent.setClass(this, Mainmenu.class);
+            StateManager.Instance.ChangeState("Mainmenu"); // Default is like a loading page
+        }
 
         return true;
     }

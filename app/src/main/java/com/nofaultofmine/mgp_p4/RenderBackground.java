@@ -38,8 +38,6 @@ public class RenderBackground implements EntityBase{
         ScreenHeight = metrics.heightPixels;
 
         Scaledbmp = Bitmap.createScaledBitmap(bmp, ScreenWidth, ScreenHeight, true);
-
-        Ship = ResourceManager.Instance.GetBitmap(R.drawable.ship2_1);
     };
 
     @Override
@@ -66,12 +64,6 @@ public class RenderBackground implements EntityBase{
     {
         _canvas.drawBitmap(Scaledbmp, xPos, yPos, null);
         _canvas.drawBitmap(Scaledbmp, xPos, yPos - ScreenHeight, null);
-
-        Matrix transform = new Matrix();
-        transform.postTranslate(200,200);
-        transform.postScale(10,10);
-        transform.postRotate((float)Math.toDegrees(30));
-        _canvas.drawBitmap(Ship,500,500, null);
     };
     @Override
     public boolean IsInit()

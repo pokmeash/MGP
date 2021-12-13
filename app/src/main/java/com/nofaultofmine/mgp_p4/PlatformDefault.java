@@ -50,7 +50,7 @@ public class PlatformDefault implements EntityBase, Collidable {
 
     @Override
     public void Init(SurfaceView _view) {
-        bmp = ResourceManager.Instance.GetBitmap(R.drawable.star);
+        bmp = ResourceManager.Instance.GetBitmap(R.drawable.platform);
 
         screenWidth = _view.getWidth();
         screenHeight = _view.getHeight();
