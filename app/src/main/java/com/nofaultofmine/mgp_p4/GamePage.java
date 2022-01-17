@@ -39,7 +39,6 @@ public class GamePage extends Activity {
         TouchManager.Instance.Update(x, y, event.getAction());
 
         Intent intent = new Intent();
-
         if (GameSystem.Instance.GetIsReturnMenu())
         {
             GameSystem.Instance.SetIsReturnMenu(!GameSystem.Instance.GetIsReturnMenu());

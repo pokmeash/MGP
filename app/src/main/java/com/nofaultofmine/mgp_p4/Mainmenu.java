@@ -2,6 +2,7 @@ package com.nofaultofmine.mgp_p4;
 
 import android.app.Activity;
 import android.graphics.Canvas;
+import android.media.MediaPlayer;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -53,6 +54,8 @@ public class Mainmenu extends Activity implements OnClickListener, StateBase {  
 
         if (v == btn_start)
         {
+            MediaPlayer ClickSound = MediaPlayer.create(this,R.raw.laser);
+            ClickSound.start();
             // intent --> to set to another class which another page or screen that we are launching.
             intent.setClass(this, GamePage.class);
             StateManager.Instance.ChangeState("MainGame"); // Default is like a loading page

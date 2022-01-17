@@ -2,6 +2,7 @@
 buildscript {
     repositories {
         google()
+        //jcenter()
         mavenCentral()
     }
     dependencies {
@@ -9,6 +10,9 @@ buildscript {
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
+        //apply plugin : 'maven'  // FB part
+        //For higher API, please use this
+        apply plugin :  'maven-publish' // FB PART
     }
 }
 
