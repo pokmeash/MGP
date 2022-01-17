@@ -14,7 +14,6 @@ import android.view.WindowManager;
 import android.content.Intent;
 
 // Created by TanSiewLan2021
-
 public class Endpage extends Activity implements OnClickListener, StateBase {  //Using StateBase class
 
     //Define buttons
@@ -71,13 +70,7 @@ public class Endpage extends Activity implements OnClickListener, StateBase {  /
     }
 
     @Override
-    public void Render(Canvas _canvas)
-    {
-        Paint paint = new Paint();
-        paint.setARGB(255, 0,0,0);
-        //paint.setStrokeWidth(200);
-        paint.setTextSize(200);
-        _canvas.drawText("" + GameSystem.Instance.GetScore(), 30, 80, paint);
+    public void Render(Canvas _canvas) {
     }
 
     @Override
@@ -112,4 +105,3 @@ public class Endpage extends Activity implements OnClickListener, StateBase {  /
         super.onDestroy();
     }
 }
-

@@ -11,8 +11,9 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.Window;
 import android.view.WindowManager;
+import androidx.appcompat.app.AppCompatActivity;
 
-public class GamePage extends Activity {
+public class GamePage extends AppCompatActivity {
 
     public static GamePage Instance = null;
 
