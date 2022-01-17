@@ -46,8 +46,19 @@ public class GamePage extends Activity {
             intent.setClass(this, Mainmenu.class);
             StateManager.Instance.ChangeState("Mainmenu"); // Default is like a loading page
         }
-
         return true;
+    }
+
+    public void GoToEnd()
+    {
+        if(GameSystem.Instance.GetIsDead())
+        {
+            Intent intent = new Intent();
+            GameSystem.Instance.SetIsDead(!GameSystem.Instance.GetIsDead());
+            intent.setClass(this, Endpage.class);
+            StateManager.Instance.ChangeState("Endpage"); // Default is like a loading page
+            startActivity(intent);
+        }
     }
 
 }

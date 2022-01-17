@@ -12,6 +12,9 @@ public class GameSystem {
     // Game stuff
     private boolean isPaused = false;
     private boolean ReturnMenu = false;
+    private boolean isDead = false;
+    private int Score = 0;
+
 
     // Singleton Pattern : Blocks others from creating
     private GameSystem()
@@ -51,4 +54,20 @@ public class GameSystem {
         return ReturnMenu;
     }
 
+    public void SetIsDead(boolean _newIsDead)
+    {
+        isDead = _newIsDead;
+    }
+
+    public boolean GetIsDead()
+    {
+        return isDead;
+    }
+
+    public void ModifyScore(int _score) {Score = _score;}
+
+    public int GetScore()
+    {
+        return Score;
+    }
 }

@@ -1,5 +1,6 @@
 package com.nofaultofmine.mgp_p4;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.view.SurfaceView;
@@ -34,6 +35,12 @@ public class Smurf implements EntityBase, Collidable {
     private boolean isLetGo = true;
     private boolean isJumping = false;
     public boolean hasLanded = false;
+
+    public boolean isDead = false;
+
+    Intent intent;
+
+    public int score = 0;
 
     Random ranGen = new Random(); //wk 8=>Random Generator
 
@@ -121,6 +128,10 @@ public class Smurf implements EntityBase, Collidable {
         }
 
 
+        if(yPos > screenHeight)
+        {
+            GameSystem.Instance.SetIsDead(true);
+        }
     }
 
     @Override
@@ -220,6 +231,8 @@ public class Smurf implements EntityBase, Collidable {
                     {
                         yPos = _other.GetMin().y - fMax.y;
                         hasLanded = true;
+                        score++;
+                        GameSystem.Instance.ModifyScore(score);
                     }
                 }
             }

@@ -6,6 +6,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.SurfaceView;
+import android.view.Window;
+import android.view.WindowManager;
+
 
 import java.util.LinkedList;
 import java.util.Vector;
@@ -72,7 +75,10 @@ public class MainGameSceneState implements StateBase {
     @Override
     public void Update(float _dt) {
         EntityManager.Instance.Update(_dt);
-
+        if(GameSystem.Instance.GetIsDead())
+        {
+            GamePage.Instance.GoToEnd();
+        }
     }
 }
 

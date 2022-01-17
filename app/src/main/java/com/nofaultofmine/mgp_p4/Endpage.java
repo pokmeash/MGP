@@ -2,6 +2,8 @@ package com.nofaultofmine.mgp_p4;
 
 import android.app.Activity;
 import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -69,7 +71,13 @@ public class Endpage extends Activity implements OnClickListener, StateBase {  /
     }
 
     @Override
-    public void Render(Canvas _canvas) {
+    public void Render(Canvas _canvas)
+    {
+        Paint paint = new Paint();
+        paint.setARGB(255, 0,0,0);
+        //paint.setStrokeWidth(200);
+        paint.setTextSize(200);
+        _canvas.drawText("" + GameSystem.Instance.GetScore(), 30, 80, paint);
     }
 
     @Override

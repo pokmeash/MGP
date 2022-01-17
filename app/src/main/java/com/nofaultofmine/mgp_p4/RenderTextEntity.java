@@ -76,7 +76,12 @@ public class RenderTextEntity implements EntityBase{
             paint.setTextSize(70);
             _canvas.drawText("FPS: " + fps, 30, 80, paint);
 
-
+            Paint paint2 = new Paint();
+            paint2.setARGB(255, 0,0,0);
+            //paint.setStrokeWidth(200);
+            paint2.setTypeface(myfont);
+            paint2.setTextSize(70);
+            _canvas.drawText("Score: " + GameSystem.Instance.GetScore(), 30, 140, paint);
         }
 
         @Override
