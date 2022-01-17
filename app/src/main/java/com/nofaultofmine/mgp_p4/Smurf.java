@@ -74,6 +74,7 @@ public class Smurf implements EntityBase, Collidable {
     @Override
     public void Update(float _dt)
     {
+        if (GameSystem.Instance.GetIsPaused()) return;
 
         spritesmurf.Update(_dt);
         min.x = xPos + fMin.x;

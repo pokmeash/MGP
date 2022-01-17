@@ -28,6 +28,7 @@ public class EntityManager {
 
     public void Update(float _dt)
     {
+
         LinkedList<EntityBase> removalList = new LinkedList<EntityBase>();
 
         // Update all
@@ -164,18 +165,19 @@ public class EntityManager {
                 removalList.add(currEntity);
             }
         }
-
-        for (int i = 0; i < entityList.size(); ++i)
-        {
-            EntityBase x = entityList.get(i);
-            if (x instanceof Collidable)
+        if (!GameSystem.Instance.GetIsPaused()) {
+            for (int i = 0; i < entityList.size(); ++i)
             {
-                Collidable curEntity = (Collidable) x;
-                if (curEntity.GetType() == "Platform" || curEntity.GetType() == "PLAYER") {
-                    curEntity.SetPosition(new Vector2(curEntity.GetPosX(), curEntity.GetPosY()).Plus(new Vector2(0, 2.f)));
-                }
-                if (curEntity.GetType() == "Platform" && curEntity.GetPosY() > view.getHeight()) {
-                    curEntity.SetPosition(new Vector2(curEntity.GetPosX(),0));
+                EntityBase x = entityList.get(i);
+                if (x instanceof Collidable)
+                {
+                    Collidable curEntity = (Collidable) x;
+                    if (curEntity.GetType() == "Platform" || curEntity.GetType() == "PLAYER") {
+                        curEntity.SetPosition(new Vector2(curEntity.GetPosX(), curEntity.GetPosY()).Plus(new Vector2(0, 2.f)));
+                    }
+                    if (curEntity.GetType() == "Platform" && curEntity.GetPosY() > view.getHeight()) {
+                        curEntity.SetPosition(new Vector2(curEntity.GetPosX(),0));
+                    }
                 }
             }
         }
