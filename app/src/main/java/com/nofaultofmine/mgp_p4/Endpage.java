@@ -2,6 +2,7 @@ package com.nofaultofmine.mgp_p4;
 
 import android.app.Activity;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.view.SurfaceView;
@@ -19,10 +20,13 @@ public class Endpage extends Activity implements OnClickListener, StateBase {  /
     //Define buttons
     private Button btn_start;
     private Button btn_back;
+    Typeface myfont;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        myfont = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/Gemcut.otf");
 
         // Hide Title
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -71,10 +75,23 @@ public class Endpage extends Activity implements OnClickListener, StateBase {  /
 
     @Override
     public void Render(Canvas _canvas) {
+        //Ryan Lau did this
+
+        //String scoreText = String.format("Score : %d", GameSystem.Instance.GetIntFromSave("Score"));
+        String scoreText = "test";
+        Paint paint = new Paint();
+        paint.setColor(Color.BLACK);
+        paint.setTypeface(myfont);
+        paint.setTextSize(64);
+
+        _canvas.drawText(scoreText,30,140,paint);
+
+
     }
 
     @Override
     public void OnEnter(SurfaceView _view) {
+        //RenderTextEntity.Create(); // Da text
     }
 
     @Override

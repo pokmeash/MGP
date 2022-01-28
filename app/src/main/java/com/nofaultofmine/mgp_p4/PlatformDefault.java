@@ -59,9 +59,9 @@ public class PlatformDefault implements EntityBase, Collidable {
     @Override
     public void Update(float _dt)
     {
-        System.out.println("HI AN EXCLUSIVE PLATFORM HERE");
-        System.out.println(this.xPos);
-        System.out.println(this.yPos);
+        //System.out.println("HI AN EXCLUSIVE PLATFORM HERE");
+        //System.out.println(this.xPos);
+        //System.out.println(this.yPos);
     }
 
     @Override
@@ -77,10 +77,10 @@ public class PlatformDefault implements EntityBase, Collidable {
         max.x = xPos + fMax.x;
         max.y = yPos + fMax.y;
 
-        System.out.println(this.xPos);
-        System.out.println(this.yPos);
-        System.out.println(pos.x);
-        System.out.println(pos.y);
+        //System.out.println(this.xPos);
+        //System.out.println(this.yPos);
+        //System.out.println(pos.x);
+        //System.out.println(pos.y);
     }
     @Override
     public void Render(Canvas _canvas) {

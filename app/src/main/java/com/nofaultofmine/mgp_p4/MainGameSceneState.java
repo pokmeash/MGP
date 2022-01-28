@@ -32,10 +32,10 @@ public class MainGameSceneState implements StateBase {
     public void OnEnter(SurfaceView _view)
     {
         Vector2 screenCenter = new Vector2(_view.getWidth() / 2,_view.getHeight() / 2);
-        System.out.println("screenCenter.x");
-        System.out.println(screenCenter.x);
-        System.out.println("screenCenter.y");
-        System.out.println(screenCenter.y);
+        //System.out.println("screenCenter.x");
+        //System.out.println(screenCenter.x);
+        //System.out.println("screenCenter.y");
+        //System.out.println(screenCenter.y);
         RenderBackground.Create(); // This is da entity
         RenderTextEntity.Create(); // Da text
         ResourceManager.Instance.Init(_view);

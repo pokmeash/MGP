@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "com.nofaultofmine.mgp_p4"
-        minSdk 26
+        minSdk 26 //should be 26
         targetSdk 31
         versionCode 1
         versionName "1.0"

@@ -131,6 +131,12 @@ public class Smurf implements EntityBase, Collidable {
 
         if(yPos > screenHeight)
         {
+            //Ryan Lau did this
+            //int oldscore = GameSystem.Instance.GetIntFromSave("Score");
+            GameSystem.Instance.SaveEditBegin();
+            GameSystem.Instance.SetIntInSave("Score",score);
+            GameSystem.Instance.SaveEditEnd();
+            //Hafiz did this
             GameSystem.Instance.SetIsDead(true);
         }
     }
