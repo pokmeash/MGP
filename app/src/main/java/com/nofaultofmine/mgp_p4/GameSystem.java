@@ -20,6 +20,10 @@ public class GameSystem {
     SharedPreferences sharedPref = null;
     SharedPreferences.Editor editor = null;
 
+    private int Highscore1 = 0;
+    private int Highscore2 = 0;
+    private int Highscore3 = 0;
+
     // Singleton Pattern : Blocks others from creating
     private GameSystem()
     {
@@ -105,4 +109,35 @@ public class GameSystem {
     {
         return sharedPref.getInt(_key,Score);
     }
+
+    public void setHighscore1(int score)
+    {
+        Highscore1 = score;
+    }
+
+    public int getHighscore1()
+    {
+        return Highscore1;
+    }
+
+    public void setHighscore2(int score)
+    {
+        Highscore2 = score;
+    }
+
+    public int getHighscore2()
+    {
+        return Highscore2;
+    }
+
+    public void setHighscore3(int score)
+    {
+        Highscore3 = score;
+    }
+
+    public int getHighscore3()
+    {
+        return Highscore3;
+    }
+
 }

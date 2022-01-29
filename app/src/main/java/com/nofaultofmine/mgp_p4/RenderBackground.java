@@ -72,12 +72,6 @@ public class RenderBackground implements EntityBase,SensorEventListener{
 
         // values [1] – sensor values for x axis
         // values [0] – sensor values for y axis
-        System.out.println(values[0]);
-        System.out.println("AccelerometerX^");
-        System.out.println(values[1]);
-        System.out.println("AccelerometerY^");
-        System.out.println(values[2]);
-        System.out.println("AccelerometerZ^");
         xPos = -100 * values[0];
     };
 

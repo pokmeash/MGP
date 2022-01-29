@@ -8,11 +8,19 @@ import android.graphics.Typeface;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 import android.content.Intent;
+import android.widget.EditText;
+import android.widget.ListView;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
+import javax.xml.transform.Result;
 
 // Created by TanSiewLan2021
 public class Endpage extends Activity implements OnClickListener, StateBase {  //Using StateBase class
@@ -20,6 +28,10 @@ public class Endpage extends Activity implements OnClickListener, StateBase {  /
     //Define buttons
     private Button btn_start;
     private Button btn_back;
+    private ListView list_view;
+    private ArrayList<String> arrayList;
+    ArrayAdapter<String> adapter;
+
     Typeface myfont;
 
     @Override
@@ -42,6 +54,35 @@ public class Endpage extends Activity implements OnClickListener, StateBase {  /
 
         btn_back = (Button)findViewById(R.id.btn_back);
         btn_back.setOnClickListener(this); //Set Listener to this button --> Back Button
+
+        list_view = (ListView)findViewById(R.id.listView);
+
+        arrayList = new ArrayList<String>();
+        adapter = new ArrayAdapter<String>(Endpage.this, android.R.layout.simple_list_item_1,arrayList);
+        list_view.setAdapter(adapter);
+
+        //Leaderboard
+        int result = GameSystem.Instance.GetIntFromSave("Score");
+
+        if (result > GameSystem.Instance.getHighscore1())
+        {
+            GameSystem.Instance.setHighscore3(GameSystem.Instance.getHighscore2());
+            GameSystem.Instance.setHighscore2(GameSystem.Instance.getHighscore1());
+            GameSystem.Instance.setHighscore1(result);
+        }
+        else if (result >GameSystem.Instance.getHighscore2())
+        {
+            GameSystem.Instance.setHighscore3(GameSystem.Instance.getHighscore2());
+            GameSystem.Instance.setHighscore2(result);
+        }
+        else if (result > GameSystem.Instance.getHighscore3())
+        {
+            GameSystem.Instance.setHighscore3(result);
+        }
+        arrayList.add(Integer.toString(GameSystem.Instance.getHighscore1()));
+        arrayList.add(Integer.toString(GameSystem.Instance.getHighscore2()));
+        arrayList.add(Integer.toString(GameSystem.Instance.getHighscore3()));
+        adapter.notifyDataSetChanged();
 
         StateManager.Instance.AddState(new Endpage());
     }
