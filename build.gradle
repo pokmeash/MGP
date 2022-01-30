@@ -12,6 +12,8 @@ buildscript {
         // in the individual module build.gradle files
         //apply plugin : 'maven'  // FB part
         //For higher API, please use this
+
+        //Ryan Lau Did this
         apply plugin :  'maven-publish' // FB PART
     }
 }
