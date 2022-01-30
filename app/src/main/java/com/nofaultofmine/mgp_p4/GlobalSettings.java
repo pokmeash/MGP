@@ -4,4 +4,5 @@ public class GlobalSettings {
     public final static GlobalSettings Instance = new GlobalSettings();
     public float screenWidth = 0;
     public float screenHeight = 0;
+    public int difficulty = 0;
 }

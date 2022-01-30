@@ -27,6 +27,7 @@ public class PlatformShaky implements EntityBase, Collidable {
 
     private boolean shaking = false;
     private float timer = 3;
+    private boolean soundPlayed = false;
 
 
     Random ranGen = new Random(); //wk 8=>Random Generator
@@ -61,11 +62,19 @@ public class PlatformShaky implements EntityBase, Collidable {
             timer -= _dt;
             if(timer <= 0)
             {
+                if(!soundPlayed)
+                {
+                    SoundManager.Instance.playSound(R.raw.explode, 0.5f);
+                }
                 timer = 0;
                 min.x = xPos + fMax.x;
                 min.y = yPos + fMax.y;
                 max.x = xPos + fMin.x;
                 max.y = yPos + fMin.y;
+            }
+            else
+            {
+                SoundManager.Instance.playSound(R.raw.breaking, 0.3f);
             }
         }
     }

@@ -185,7 +185,7 @@ public class EntityManager {
                     }
                 }
             }
-            if(prev.GetPosY() > 1400)
+            if(prev.GetPosY() > GlobalSettings.Instance.screenHeight - 300)
             {
                 moveCamera = false;
             }

@@ -46,6 +46,9 @@ public class Smurf implements EntityBase, Collidable {
 
     Collidable.hitbox_type HB_type = hitbox_type.HB_BOX;
 
+    boolean RenderArrow = false;
+    Vector2 direction = new Vector2(0,0);
+
     float holdTime = 0;
 
 
@@ -61,7 +64,7 @@ public class Smurf implements EntityBase, Collidable {
 
     @Override
     public void Init(SurfaceView _view) {
-        bmp = ResourceManager.Instance.GetBitmap(R.drawable.star);
+        bmp = ResourceManager.Instance.GetBitmap(R.drawable.dirindicator);
         spritesmurf = new Sprite(ResourceManager.Instance.GetBitmap(R.drawable.smurf_sprite),1,3, 3 );
 
         screenWidth = _view.getWidth();
@@ -77,7 +80,7 @@ public class Smurf implements EntityBase, Collidable {
     public void Update(float _dt)
     {
         if (GameSystem.Instance.GetIsPaused()) return;
-
+        Vector2 pos = new Vector2(xPos, yPos);
         spritesmurf.Update(_dt);
         min.x = xPos + fMin.x;
         min.y = yPos + fMin.y;
@@ -98,18 +101,28 @@ public class Smurf implements EntityBase, Collidable {
             {
                 holdTime = 3;
             }
+            RenderArrow = true;
+            Vector2 origin = new Vector2(0,0);
+            if(GlobalSettings.Instance.difficulty == 0)
+            {
+                origin = new Vector2(GlobalSettings.Instance.screenWidth / 2,GlobalSettings.Instance.screenHeight / 2);
+            }
+            else
+            {
+                origin = new Vector2(xPos, yPos);
+            }
+            direction = origin.Minus(touchPos);
+            direction = direction.Normalized();
 
         }
 
         if(!TouchManager.Instance.HasTouch() && hasLanded && isJumping)
         {
-            Vector2 pos = new Vector2(xPos, yPos);
+            RenderArrow = false;
             hasLanded = false;
             isJumping = false;
             doneOnce = true;
-            jumpVector = pos.Minus(touchPos);
-            jumpVector = jumpVector.Normalized();
-            jumpVector = jumpVector.Multiply(new Vector2(200 + 100 * holdTime,200 + 100* holdTime));
+            jumpVector = direction.Multiply(new Vector2(200 + 100 * holdTime,200 + 100* holdTime));
             holdTime = 0;
             SoundManager.Instance.playSound(R.raw.jump, 0.3f);
         }
@@ -147,7 +160,17 @@ public class Smurf implements EntityBase, Collidable {
 
     @Override
     public void Render(Canvas _canvas) {
-        //wk 8=>draw sprite using xpos,ypos, must cast in int
+
+        if(RenderArrow)
+        {
+            Matrix transform = new Matrix();
+            transform.preTranslate(0, -bmp.getHeight() * 0.5f);
+            transform.postRotate((float)Math.toDegrees(Math.atan2(direction.y, direction.x)));
+            transform.postTranslate(xPos, yPos);
+
+            _canvas.drawBitmap(bmp, transform, null);
+        }
+
         spritesmurf.Render(_canvas, (int)xPos, (int)yPos);
 
         //hitbox for testing
