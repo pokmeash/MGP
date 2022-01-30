@@ -32,9 +32,9 @@ public class Smurf implements EntityBase, Collidable {
     private float screenWidth =0;
     private float speed = 0;
     private boolean updateGravity;
-    private boolean isLetGo = true;
     private boolean isJumping = false;
     public boolean hasLanded = false;
+    public boolean doneOnce = false;
 
     public boolean isDead = false;
 
@@ -87,7 +87,7 @@ public class Smurf implements EntityBase, Collidable {
         RollbackPos.x = xPos;
         RollbackPos.y = yPos;
 
-        if(TouchManager.Instance.HasTouch())
+        if(TouchManager.Instance.HasTouch() && hasLanded)
         {
             touchPos.x = TouchManager.Instance.GetPosX();
             touchPos.y = TouchManager.Instance.GetPosY();
@@ -101,11 +101,12 @@ public class Smurf implements EntityBase, Collidable {
 
         }
 
-        if(!TouchManager.Instance.HasTouch() && isJumping && !isLetGo)
+        if(!TouchManager.Instance.HasTouch() && hasLanded && isJumping)
         {
             Vector2 pos = new Vector2(xPos, yPos);
-            isLetGo = true;
             hasLanded = false;
+            isJumping = false;
+            doneOnce = true;
             jumpVector = pos.Minus(touchPos);
             jumpVector = jumpVector.Normalized();
             jumpVector = jumpVector.Multiply(new Vector2(200 + 100 * holdTime,200 + 100* holdTime));
@@ -113,34 +114,30 @@ public class Smurf implements EntityBase, Collidable {
             SoundManager.Instance.playSound(R.raw.jump, 0.3f);
         }
 
-        if(isLetGo)
+        if(xPos < 0)
         {
-            if(xPos < 0)
-            {
-                xPos = screenWidth - 1;
-            }
-            if(xPos > screenWidth)
-            {
-                xPos = 0;
-            }
+            xPos = screenWidth - 1;
+        }
+        if(xPos > screenWidth)
+        {
+            xPos = 0;
+        }
 
-            xPos += jumpVector.x * 0.1;
-            yPos += jumpVector.y * 0.1;
-            jumpVector.y += 9.81;
+        xPos += jumpVector.x * 0.1;
+        yPos += jumpVector.y * 0.1;
+        jumpVector.y += 9.81;
 
-            if(jumpVector.y >= 200)
-            {
-                jumpVector.y = 200;
-            }
+        if(jumpVector.y >= 200)
+        {
+            jumpVector.y = 200;
         }
 
 
-        if(yPos > screenHeight)
-        {
+        if(yPos > screenHeight) {
             //Ryan Lau did this
             //int oldscore = GameSystem.Instance.GetIntFromSave("Score");
             GameSystem.Instance.SaveEditBegin();
-            GameSystem.Instance.SetIntInSave("Score",score);
+            GameSystem.Instance.SetIntInSave("Score", score);
             GameSystem.Instance.SaveEditEnd();
             //Hafiz did this
             GameSystem.Instance.SetIsDead(true);
@@ -239,29 +236,23 @@ public class Smurf implements EntityBase, Collidable {
         {
             if (_other.GetHBTYPE() == hitbox_type.HB_BOX)
             {
-                if(!hasLanded)
+                if(jumpVector.y > 0)
                 {
-                    if(jumpVector.y > 0)
+                    yPos = _other.GetMin().y - fMax.y;
+                    hasLanded = true;
+                    jumpVector.x = 0;
+                    jumpVector.y = 0;
+                    if (hasLanded && doneOnce)
                     {
-                        isJumping = false;
-                        isLetGo = false;
-                    }
-                    if(!isJumping && !isLetGo)
-                    {
-                        yPos = _other.GetMin().y - fMax.y;
-                        hasLanded = true;
-                        EntityManager.Instance.landed = true;
-                        if(EntityManager.Instance.prev != _other)
-                        {
+                        if (EntityManager.Instance.prev != _other) {
                             EntityManager.Instance.prev = _other;
                             EntityManager.Instance.moveCamera = true;
                             score++;
                             GameSystem.Instance.ModifyScore(score);
-                        }
-                        else
-                        {
+                        } else {
                             EntityManager.Instance.moveCamera = false;
                         }
+                        doneOnce = false;
                     }
                 }
             }

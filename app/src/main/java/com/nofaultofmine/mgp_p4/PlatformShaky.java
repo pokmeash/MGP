@@ -47,7 +47,7 @@ public class PlatformShaky implements EntityBase, Collidable {
     @Override
     public void Init(SurfaceView _view) {
         bmp = ResourceManager.Instance.GetBitmap(R.drawable.platform_shaky_still);
-        spritePlatform= new Sprite(ResourceManager.Instance.GetBitmap(R.drawable.platform_shaky_shaking),1,2, 4 );
+        spritePlatform= new Sprite(ResourceManager.Instance.GetBitmap(R.drawable.platform_shaky_shaking),1,2, 8 );
         screenWidth = _view.getWidth();
         screenHeight = _view.getHeight();
     }
@@ -55,10 +55,9 @@ public class PlatformShaky implements EntityBase, Collidable {
     @Override
     public void Update(float _dt)
     {
-        spritePlatform.Update(_dt);
-
         if(shaking)
         {
+            spritePlatform.Update(_dt);
             timer -= _dt;
             if(timer <= 0)
             {
@@ -178,7 +177,7 @@ public class PlatformShaky implements EntityBase, Collidable {
     @Override
     public void OnHit(Collidable _other)
     {
-        if(EntityManager.Instance.landed)
+        if(EntityManager.Instance.moveCamera)
         {
             shaking = true;
         }
