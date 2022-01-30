@@ -28,6 +28,7 @@ public class GamePage extends AppCompatActivity {
         Instance = this;
 
         setContentView(new GameView(this)); // Surfaceview = GameView
+
     }
 
     @Override

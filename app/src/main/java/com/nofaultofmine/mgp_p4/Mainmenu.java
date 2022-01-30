@@ -56,6 +56,11 @@ public class Mainmenu extends Activity implements OnClickListener, StateBase {  
         {
             MediaPlayer ClickSound = MediaPlayer.create(this,R.raw.laser);
             ClickSound.start();
+            GameSystem.Instance.ModifyScore(0);
+            if (GameSystem.Instance.GetIsPaused())
+            {
+                GameSystem.Instance.SetIsPaused(!GameSystem.Instance.GetIsPaused());
+            }
             // intent --> to set to another class which another page or screen that we are launching.
             intent.setClass(this, GamePage.class);
             StateManager.Instance.ChangeState("MainGame"); // Default is like a loading page

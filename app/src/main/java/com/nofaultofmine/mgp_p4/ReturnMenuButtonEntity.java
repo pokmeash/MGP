@@ -9,8 +9,10 @@ import android.view.SurfaceView;
 
 public class ReturnMenuButtonEntity implements EntityBase{
 
-    private Bitmap bmpP,bmpUP,ScaledbmpP,ScaledbmpUP;
+    private Bitmap bmpP,bmpH,bmpR,ScaledbmpP,ScaledbmpH,ScaledbmpR;
     private float xPos = 0, yPos = 0;
+    private float xPosH = 0, yPosH = 0;
+    private float xPosR = 0, yPosR = 0;
 
     private boolean isDone = false;
     private boolean isInit = false;
@@ -33,34 +35,51 @@ public class ReturnMenuButtonEntity implements EntityBase{
     @Override
     public void Init(SurfaceView _view) {
 
-        bmpP = ResourceManager.Instance.GetBitmap(R.drawable.pause);
-        bmpUP = ResourceManager.Instance.GetBitmap(R.drawable.pause1);
+        bmpP = ResourceManager.Instance.GetBitmap(R.drawable.pausemenubg);
+        bmpH = ResourceManager.Instance.GetBitmap(R.drawable.home);
+        bmpR = ResourceManager.Instance.GetBitmap(R.drawable.retry);
 
         DisplayMetrics metrics = _view.getResources().getDisplayMetrics();
         ScreenWidth = metrics.widthPixels;
         ScreenHeight = metrics.heightPixels;
 
-        ScaledbmpP = Bitmap.createScaledBitmap(bmpP, (int) (ScreenWidth)/12, (int)(ScreenWidth)/7, true);
-        ScaledbmpUP = Bitmap.createScaledBitmap(bmpUP, (int) (ScreenWidth)/12, (int)(ScreenWidth)/7, true);
+        ScaledbmpP = Bitmap.createScaledBitmap(bmpP, (int) (ScreenWidth)/2, (int)(ScreenWidth)/2, true);
+        ScaledbmpH = Bitmap.createScaledBitmap(bmpH, (int) (ScreenWidth)/5, (int)(ScreenWidth)/5, true);
+        ScaledbmpR = Bitmap.createScaledBitmap(bmpR, (int) (ScreenWidth)/5, (int)(ScreenWidth)/5, true);
 
-        xPos = ScreenWidth - 150;
-        yPos = 350;
+        xPos = ScreenWidth/2;
+        yPos = ScreenHeight/2;
+        xPosH = ScreenWidth/2 - 130;
+        yPosH = ScreenHeight/2;
+        xPosR = ScreenWidth/2 + 130;
+        yPosR = ScreenHeight/2;
         isInit = true;
     }
 
     @Override
     public void Update(float _dt) {
        buttonDelay += _dt;
-
        if (TouchManager.Instance.HasTouch()) {
            if (TouchManager.Instance.IsDown() && !Paused) {
                // Check Collision of button here!!
-               float imgRadius = ScaledbmpP.getHeight() * 0.5f;
-
-               if (Collision.SphereToSphere(TouchManager.Instance.GetPosX(), TouchManager.Instance.GetPosY(), 0.0f, xPos, yPos, imgRadius) && buttonDelay >= 0.25) {
+               float imgRadius = ScaledbmpH.getHeight() * 0.5f;
+               float imgRadius2 = ScaledbmpR.getHeight() * 0.5f;
+               if (Collision.SphereToSphere(TouchManager.Instance.GetPosX(), TouchManager.Instance.GetPosY(), 0.0f, xPosH, yPosH, imgRadius) && buttonDelay >= 0.25) {
                    Paused = true;
                    buttonDelay = 0;
                    GameSystem.Instance.SetIsReturnMenu(!GameSystem.Instance.GetIsReturnMenu());
+               }
+               if (Collision.SphereToSphere(TouchManager.Instance.GetPosX(), TouchManager.Instance.GetPosY(), 0.0f, xPosR, yPosR, imgRadius2) && buttonDelay >= 0.25) {
+                   Paused = true;
+                   buttonDelay = 0;
+                   GameSystem.Instance.ModifyScore(0);
+                   if (GameSystem.Instance.GetIsPaused())
+                   {
+                       GameSystem.Instance.SetIsPaused(!GameSystem.Instance.GetIsPaused());
+                   }
+                   //Reset Player pos
+                   //Entites clean
+                   //Reset game scenestate basically
                }
            }
        } else
@@ -71,10 +90,9 @@ public class ReturnMenuButtonEntity implements EntityBase{
     public void Render(Canvas _canvas) {
         if (GameSystem.Instance.GetIsPaused())
         {
-            if (Paused == false)
-                _canvas.drawBitmap(ScaledbmpP,xPos - ScaledbmpP.getWidth() * 0.5f, yPos - ScaledbmpP.getHeight() * 0.5f, null);
-            else
-                _canvas.drawBitmap(ScaledbmpUP,xPos - ScaledbmpUP.getWidth() * 0.5f, yPos - ScaledbmpUP.getHeight() * 0.5f, null);
+            _canvas.drawBitmap(ScaledbmpP,xPos - ScaledbmpP.getWidth() * 0.5f, yPos - ScaledbmpP.getHeight() * 0.5f, null);
+            _canvas.drawBitmap(ScaledbmpH,xPosH - ScaledbmpH.getWidth() * 0.5f, yPosH - ScaledbmpH.getHeight() * 0.5f, null);
+            _canvas.drawBitmap(ScaledbmpR,xPosR - ScaledbmpR.getWidth() * 0.5f, yPosR - ScaledbmpR.getHeight() * 0.5f, null);
         }
     }
 

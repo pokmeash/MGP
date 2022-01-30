@@ -19,6 +19,7 @@ public class MainGameSceneState implements StateBase {
     private float timer = 0.0f;
     private float buttonDelay = 0;
     private boolean Paused = false;
+    private SurfaceView view;
 
     Intent intent;
 
@@ -31,11 +32,12 @@ public class MainGameSceneState implements StateBase {
     @Override
     public void OnEnter(SurfaceView _view)
     {
-        Vector2 screenCenter = new Vector2(_view.getWidth() / 2,_view.getHeight() / 2);
+        view = _view;
+        Vector2 screenCenter = new Vector2(view.getWidth() / 2,view.getHeight() / 2);
 
         RenderBackground.Create();
         RenderTextEntity.Create();
-        ResourceManager.Instance.Init(_view);
+        ResourceManager.Instance.Init(view);
 
         PausebuttonEntity.Create();
         ReturnMenuButtonEntity.Create();
@@ -44,10 +46,10 @@ public class MainGameSceneState implements StateBase {
         PlatformDefault platform4 = PlatformDefault.Create();
         platform4.SetPosition(screenCenter.Plus(new Vector2(-100,(screenCenter.y - 350))));
 
-        GlobalSettings.Instance.screenHeight = _view.getHeight();
-        GlobalSettings.Instance.screenWidth = _view.getWidth();
+        GlobalSettings.Instance.screenHeight = view.getHeight();
+        GlobalSettings.Instance.screenWidth = view.getWidth();
 
-        PlatformManager.Instance.Init(_view);
+        PlatformManager.Instance.Init(view);
 
         intent = new Intent();
     }
@@ -73,6 +75,13 @@ public class MainGameSceneState implements StateBase {
         {
             GamePage.Instance.GoToEnd();
         }
+    }
+
+    public void Reset()
+    {
+        EntityManager.Instance.Clean();
+
+
     }
 }
 
