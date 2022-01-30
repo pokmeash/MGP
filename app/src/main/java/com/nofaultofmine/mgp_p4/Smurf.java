@@ -3,6 +3,8 @@ package com.nofaultofmine.mgp_p4;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.view.SurfaceView;
 import android.graphics.Matrix;
 import java.util.Random;
@@ -110,6 +112,7 @@ public class Smurf implements EntityBase, Collidable {
             jumpVector = jumpVector.Normalized();
             jumpVector = jumpVector.Multiply(new Vector2(200 + 100 * holdTime,200 + 100* holdTime));
             holdTime = 0;
+            SoundManager.Instance.playSound(R.raw.jump,0.3f);
         }
 
         if(isLetGo)
@@ -141,6 +144,7 @@ public class Smurf implements EntityBase, Collidable {
             GameSystem.Instance.SaveEditBegin();
             GameSystem.Instance.SetIntInSave("Score",score);
             GameSystem.Instance.SaveEditEnd();
+            SoundManager.Instance.playSound(R.raw.lose,0.3f);
             //Hafiz did this
             GameSystem.Instance.SetIsDead(true);
         }
@@ -249,6 +253,7 @@ public class Smurf implements EntityBase, Collidable {
                         hasLanded = true;
                         score++;
                         GameSystem.Instance.ModifyScore(score);
+
                     }
                 }
             }

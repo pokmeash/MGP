@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.media.MediaPlayer;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -99,6 +100,8 @@ public class Endpage extends Activity implements OnClickListener, StateBase {  /
 
         if (v == btn_start)
         {
+            MediaPlayer ClickSound = MediaPlayer.create(this,R.raw.laser);
+            ClickSound.start();
             // intent --> to set to another class which another page or screen that we are launching.
             intent.setClass(this, GamePage.class);
             StateManager.Instance.ChangeState("MainGame"); // Default is like a loading page
@@ -107,6 +110,8 @@ public class Endpage extends Activity implements OnClickListener, StateBase {  /
 
         else if (v == btn_back)
         {
+            MediaPlayer ClickSound = MediaPlayer.create(this,R.raw.laser);
+            ClickSound.start();
             intent.setClass(this, Mainmenu.class);
             StateManager.Instance.ChangeState("Mainmenu"); // Default is like a loading page
         }
