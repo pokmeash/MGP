@@ -17,6 +17,9 @@ public class EntityManager {
 
     public Collidable prev = null;
 
+    public boolean landed = false;
+    public boolean moveCamera = false;
+
     private EntityManager()
     {
     }
@@ -28,7 +31,6 @@ public class EntityManager {
 
     public void Update(float _dt)
     {
-
         LinkedList<EntityBase> removalList = new LinkedList<EntityBase>();
 
         // Update all
@@ -40,8 +42,10 @@ public class EntityManager {
                 entityList.get(i).Init(view);
             }
 
-            entityList.get(i).Update(_dt);
-
+            if(!GameSystem.Instance.GetIsPaused() ||  entityList.get(i).GetEntityType() == EntityBase.ENTITY_TYPE.ENT_PAUSE)
+            {
+                entityList.get(i).Update(_dt);
+            }
             // Check if need to clean up
             if (entityList.get(i).IsDone()) {
                 // Done! Time to add to the removal list
@@ -165,20 +169,22 @@ public class EntityManager {
                 removalList.add(currEntity);
             }
         }
-        if (!GameSystem.Instance.GetIsPaused()) {
-            for (int i = 0; i < entityList.size(); ++i)
-            {
+        if (moveCamera) {
+            for (int i = 0; i < entityList.size(); ++i) {
                 EntityBase x = entityList.get(i);
-                if (x instanceof Collidable)
-                {
+                if (x instanceof Collidable) {
                     Collidable curEntity = (Collidable) x;
                     if (curEntity.GetType() == "Platform" || curEntity.GetType() == "PLAYER") {
-                        curEntity.SetPosition(new Vector2(curEntity.GetPosX(), curEntity.GetPosY()).Plus(new Vector2(0, 2.f)));
+                        curEntity.SetPosition(new Vector2(curEntity.GetPosX(), curEntity.GetPosY()).Plus(new Vector2(0, 10.f)));
                     }
                     if (curEntity.GetType() == "Platform" && curEntity.GetPosY() > view.getHeight()) {
-                        curEntity.SetPosition(new Vector2(curEntity.GetPosX(),0));
+                        curEntity.SetPosition(new Vector2(curEntity.GetPosX(), 0));
                     }
                 }
+            }
+            if(prev.GetPosY() > 1400)
+            {
+                moveCamera = false;
             }
         }
 

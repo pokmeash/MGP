@@ -232,6 +232,7 @@ public class Smurf implements EntityBase, Collidable {
     @Override
     public void OnHit(Collidable _other)
     {
+        //hafiz did this
         if (_other.GetType() != this.GetType())
         {
             if (_other.GetHBTYPE() == hitbox_type.HB_BOX)
@@ -247,8 +248,18 @@ public class Smurf implements EntityBase, Collidable {
                     {
                         yPos = _other.GetMin().y - fMax.y;
                         hasLanded = true;
-                        score++;
-                        GameSystem.Instance.ModifyScore(score);
+                        EntityManager.Instance.landed = true;
+                        if(EntityManager.Instance.prev != _other)
+                        {
+                            EntityManager.Instance.prev = _other;
+                            EntityManager.Instance.moveCamera = true;
+                            score++;
+                            GameSystem.Instance.ModifyScore(score);
+                        }
+                        else
+                        {
+                            EntityManager.Instance.moveCamera = false;
+                        }
                     }
                 }
             }

@@ -56,19 +56,17 @@ public class RenderBackground implements EntityBase,SensorEventListener{
     public void Update(float _dt)
     {
         if (GameSystem.Instance.GetIsPaused()) return;
-        //test
-       //xPos -= _dt * 500;
 
-       //if (xPos < -ScreenWidth){
-       //    xPos = 0;
-       //}
-        //no longer use moving bg only move when jumping
-
-        yPos += _dt * 500;
-
-        if (yPos > ScreenHeight) {
-            yPos = 0;
+        //hafiz did this
+        if(EntityManager.Instance.moveCamera)
+        {
+            yPos += 5;
+            if (yPos > ScreenHeight) {
+                yPos = 0;
+            }
         }
+
+        //Ryan Lau did this
 
         // values [1] – sensor values for x axis
         // values [0] – sensor values for y axis
