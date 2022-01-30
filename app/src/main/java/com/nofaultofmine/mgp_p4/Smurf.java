@@ -110,6 +110,7 @@ public class Smurf implements EntityBase, Collidable {
             jumpVector = jumpVector.Normalized();
             jumpVector = jumpVector.Multiply(new Vector2(200 + 100 * holdTime,200 + 100* holdTime));
             holdTime = 0;
+            SoundManager.Instance.playSound(R.raw.jump, 0.3f);
         }
 
         if(isLetGo)
@@ -143,6 +144,7 @@ public class Smurf implements EntityBase, Collidable {
             GameSystem.Instance.SaveEditEnd();
             //Hafiz did this
             GameSystem.Instance.SetIsDead(true);
+            SoundManager.Instance.playSound(R.raw.lose, 0.3f);
         }
     }
 
