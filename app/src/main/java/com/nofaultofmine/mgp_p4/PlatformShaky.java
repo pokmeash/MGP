@@ -2,14 +2,16 @@ package com.nofaultofmine.mgp_p4;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.view.SurfaceView;
 import android.graphics.Matrix;
+import android.view.SurfaceView;
+
 import java.util.Random;
 
-public class PlatformDefault implements EntityBase, Collidable {
+public class PlatformShaky implements EntityBase, Collidable {
     private Bitmap bmp = null;
 
     private boolean isDone = false;
+    private float offset;
     private Sprite spritePlatform = null;   // New on Week 8
 
     public float xPos = 0;
@@ -23,10 +25,13 @@ public class PlatformDefault implements EntityBase, Collidable {
     private float screenHeight = 0;
     private float screenWidth =0;
 
+    private boolean shaking = false;
+    private float timer = 3;
+
 
     Random ranGen = new Random(); //wk 8=>Random Generator
 
-    Collidable.hitbox_type HB_type = hitbox_type.HB_BOX;
+    hitbox_type HB_type = hitbox_type.HB_BOX;
 
 
     @Override
@@ -41,8 +46,8 @@ public class PlatformDefault implements EntityBase, Collidable {
 
     @Override
     public void Init(SurfaceView _view) {
-        bmp = ResourceManager.Instance.GetBitmap(R.drawable.star);
-        spritePlatform= new Sprite(ResourceManager.Instance.GetBitmap(R.drawable.platform),4,4, 8 );
+        bmp = ResourceManager.Instance.GetBitmap(R.drawable.platform_shaky_still);
+        spritePlatform= new Sprite(ResourceManager.Instance.GetBitmap(R.drawable.platform_shaky_shaking),1,2, 4 );
         screenWidth = _view.getWidth();
         screenHeight = _view.getHeight();
     }
@@ -51,6 +56,15 @@ public class PlatformDefault implements EntityBase, Collidable {
     public void Update(float _dt)
     {
         spritePlatform.Update(_dt);
+
+        if(shaking)
+        {
+            timer -= _dt;
+            if(timer <= 0)
+            {
+                isDone = true;
+            }
+        }
     }
 
     @Override
@@ -69,13 +83,19 @@ public class PlatformDefault implements EntityBase, Collidable {
     @Override
     public void Render(Canvas _canvas) {
 
-        spritePlatform.Render(_canvas, (int)xPos, (int)yPos);
-        Matrix transform = new Matrix();
+        if(shaking)
+        {
+            spritePlatform.Render(_canvas, (int)xPos, (int)yPos);
+        }
+        else
+        {
+            Matrix transform = new Matrix();
+            transform.postTranslate(-bmp.getWidth() * 0.5f, -bmp.getHeight() * 0.5f);
+            transform.postTranslate(xPos, yPos);
+            _canvas.drawBitmap(bmp, transform, null);
+            transform.setTranslate(0,0);
+        }
 
-        //transform.postTranslate(-bmp.getWidth() * 0.5f, -bmp.getHeight() * 0.5f);
-        //transform.postTranslate(xPos, yPos);
-        //_canvas.drawBitmap(bmp, transform, null);
-        //transform.setTranslate(0,0);
 //
         //transform.postTranslate(-bmp.getWidth() * 0.5f, -bmp.getHeight() * 0.5f);
         //transform.postTranslate(min.x, min.y);
@@ -115,8 +135,8 @@ public class PlatformDefault implements EntityBase, Collidable {
         return ENTITY_TYPE.ENT_SMURF;
     }
 
-    public static PlatformDefault Create() {
-        PlatformDefault result = new PlatformDefault(); //wek 8
+    public static PlatformShaky Create() {
+        PlatformShaky result = new PlatformShaky(); //wek 8
         EntityManager.Instance.AddEntity(result, ENTITY_TYPE.ENT_PLATFORM);
         return result;
     }
@@ -148,7 +168,7 @@ public class PlatformDefault implements EntityBase, Collidable {
     public Vector2 GetMax() { return max; }
 
     @Override
-    public Collidable.hitbox_type GetHBTYPE() { return HB_type; }
+    public hitbox_type GetHBTYPE() { return HB_type; }
 
     @Override
     public float GetRadius() {
@@ -158,7 +178,10 @@ public class PlatformDefault implements EntityBase, Collidable {
     @Override
     public void OnHit(Collidable _other)
     {
-
+        if(EntityManager.Instance.landed)
+        {
+            shaking = true;
+        }
     }
 }
 

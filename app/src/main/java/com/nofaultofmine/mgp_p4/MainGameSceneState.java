@@ -45,7 +45,7 @@ public class MainGameSceneState implements StateBase {
         ReturnMenuButtonEntity.Create();
         Smurf.Create();
 
-        PlatformDefault platform1 = PlatformDefault.Create();
+        PlatformShaky platform1 = PlatformShaky.Create();
         platform1.SetPosition(screenCenter.Plus(new Vector2(250,0)));
 
         PlatformDefault platform2 = PlatformDefault.Create();
