@@ -17,6 +17,7 @@ public class EntityManager {
 
     public Collidable prev = null;
     public boolean moveCamera = false;
+    public boolean LockPlayer = false;
 
     private EntityManager()
     {
@@ -30,7 +31,10 @@ public class EntityManager {
     public void Update(float _dt)
     {
         LinkedList<EntityBase> removalList = new LinkedList<EntityBase>();
-
+        if(GameSystem.Instance.GetIsPaused())
+        {
+            LockPlayer = true;
+        }
         // Update all
         for(int i = 0; i < entityList.size(); ++i)
         {
@@ -39,7 +43,6 @@ public class EntityManager {
             {
                 entityList.get(i).Init(view);
             }
-
             if(!GameSystem.Instance.GetIsPaused() ||  entityList.get(i).GetEntityType() == EntityBase.ENTITY_TYPE.ENT_PAUSE)
             {
                 entityList.get(i).Update(_dt);
@@ -51,27 +54,17 @@ public class EntityManager {
             }
         }
 
-        for (EntityBase currEntity : entityList)
-        {
-            // Lets check if is init, initialize if not
-            if (!currEntity.IsInit())
-                currEntity.Init(view);
-
-            currEntity.Update(_dt);
-
-            // Check if need to clean up
-            if (currEntity.IsDone()) {
-                // Done! Time to add to the removal list
-                removalList.add(currEntity);
-            }
-        }
-
         // Remove all entities that are done
         for (EntityBase currEntity : removalList) {
             entityList.remove(currEntity);
         }
         removalList.clear(); // Clean up of removal list
 
+
+        if(GameSystem.Instance.GetIsPaused())
+        {
+            return;
+        }
         // Collision Check
         for (int i = 0; i < entityList.size(); ++i)
         {

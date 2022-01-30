@@ -183,11 +183,11 @@ public class PlatformMoving implements EntityBase, Collidable {
     {
         if(movingLeft)
         {
-            _other.SetPosition(new Vector2(_other.GetPosX() - 4, _other.GetPosY()));
+            _other.SetPosition(new Vector2(_other.GetPosX() - 2, _other.GetPosY()));
         }
         else
         {
-            _other.SetPosition(new Vector2(_other.GetPosX() + 4, _other.GetPosY()));
+            _other.SetPosition(new Vector2(_other.GetPosX() + 2, _other.GetPosY()));
         }
     }
 }

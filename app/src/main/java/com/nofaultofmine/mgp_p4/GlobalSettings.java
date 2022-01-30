@@ -5,4 +5,5 @@ public class GlobalSettings {
     public float screenWidth = 0;
     public float screenHeight = 0;
     public int difficulty = 0;
+    public int cheeseCount = 0;
 }

@@ -51,7 +51,7 @@ public class Smurf implements EntityBase, Collidable {
 
     float holdTime = 0;
 
-
+    private float tempLockout = 0;
     @Override
     public boolean IsDone() {
         return isDone;
@@ -79,89 +79,89 @@ public class Smurf implements EntityBase, Collidable {
     @Override
     public void Update(float _dt)
     {
-        if (GameSystem.Instance.GetIsPaused()) return;
-        Vector2 pos = new Vector2(xPos, yPos);
-        spritesmurf.Update(_dt);
-        min.x = xPos + fMin.x;
-        min.y = yPos + fMin.y;
-        max.x = xPos + fMax.x;
-        max.y = yPos + fMax.y;
-
-        RollbackPos.x = xPos;
-        RollbackPos.y = yPos;
-
-        if(TouchManager.Instance.HasTouch() && hasLanded)
+        if(EntityManager.Instance.LockPlayer)
         {
-            touchPos.x = TouchManager.Instance.GetPosX();
-            touchPos.y = TouchManager.Instance.GetPosY();
-            isJumping = true;
-            holdTime += 0.025f;
-
-            if(holdTime >= 3)
-            {
-                holdTime = 3;
-            }
-            RenderArrow = true;
-            Vector2 origin = new Vector2(0,0);
-            if(GlobalSettings.Instance.difficulty == 0)
-            {
-                origin = new Vector2(GlobalSettings.Instance.screenWidth / 2,GlobalSettings.Instance.screenHeight / 2);
-            }
-            else
-            {
-                origin = new Vector2(xPos, yPos);
-            }
-            direction = origin.Minus(touchPos);
-            direction = direction.Normalized();
-
+            ActivateLockout();
+            EntityManager.Instance.LockPlayer = false;
         }
-
-        if(!TouchManager.Instance.HasTouch() && hasLanded && isJumping)
+        if(tempLockout > 0)
         {
             RenderArrow = false;
-            hasLanded = false;
-            isJumping = false;
-            doneOnce = true;
-            jumpVector = direction.Multiply(new Vector2(200 + 100 * holdTime,200 + 100* holdTime));
-            holdTime = 0;
-            SoundManager.Instance.playSound(R.raw.jump, 0.3f);
+            tempLockout -= _dt;
         }
+        else {
+            Vector2 pos = new Vector2(xPos, yPos);
+            spritesmurf.Update(_dt);
+            min.x = xPos + fMin.x;
+            min.y = yPos + fMin.y;
+            max.x = xPos + fMax.x;
+            max.y = yPos + fMax.y;
 
-        if(xPos < 0)
-        {
-            xPos = screenWidth - 1;
-        }
-        if(xPos > screenWidth)
-        {
-            xPos = 0;
-        }
+            RollbackPos.x = xPos;
+            RollbackPos.y = yPos;
 
-        xPos += jumpVector.x * 0.1;
-        yPos += jumpVector.y * 0.1;
-        jumpVector.y += 9.81;
+            if (TouchManager.Instance.HasTouch() && hasLanded) {
+                touchPos.x = TouchManager.Instance.GetPosX();
+                touchPos.y = TouchManager.Instance.GetPosY();
+                isJumping = true;
+                holdTime += 0.025f;
 
-        if(jumpVector.y >= 200)
-        {
-            jumpVector.y = 200;
-        }
+                if (holdTime >= 3) {
+                    holdTime = 3;
+                }
+                RenderArrow = true;
+                Vector2 origin = new Vector2(0, 0);
+                if (GlobalSettings.Instance.difficulty == 0) {
+                    origin = new Vector2(GlobalSettings.Instance.screenWidth / 2, GlobalSettings.Instance.screenHeight / 2);
+                } else {
+                    origin = new Vector2(xPos, yPos);
+                }
+                direction = origin.Minus(touchPos);
+                direction = direction.Normalized();
+
+            }
+
+            if (!TouchManager.Instance.HasTouch() && hasLanded && isJumping) {
+                RenderArrow = false;
+                hasLanded = false;
+                isJumping = false;
+                doneOnce = true;
+                jumpVector = direction.Multiply(new Vector2(200 + 100 * holdTime, 200 + 100 * holdTime));
+                holdTime = 0;
+                SoundManager.Instance.playSound(R.raw.jump, 0.3f);
+            }
+
+            if (min.x <= 0 || max.x >= screenWidth) {
+                jumpVector.x = -jumpVector.x;
+            }
+
+            xPos += jumpVector.x * 0.2;
+            yPos += jumpVector.y * 0.2;
+            jumpVector.y += 9.81 * 2;
 
 
-        if(yPos > screenHeight) {
-            //Ryan Lau did this
-            //int oldscore = GameSystem.Instance.GetIntFromSave("Score");
-            GameSystem.Instance.SaveEditBegin();
-            GameSystem.Instance.SetIntInSave("Score", score);
-            GameSystem.Instance.SaveEditEnd();
-            //Hafiz did this
-            GameSystem.Instance.SetIsDead(true);
-            SoundManager.Instance.playSound(R.raw.lose, 0.3f);
+            if (jumpVector.y >= 200) {
+                jumpVector.y = 200;
+            }
+
+
+            if (yPos > screenHeight) {
+                //Ryan Lau did this
+                //int oldscore = GameSystem.Instance.GetIntFromSave("Score");
+                GameSystem.Instance.SaveEditBegin();
+                GameSystem.Instance.SetIntInSave("Score", score);
+                GameSystem.Instance.SaveEditEnd();
+                //Hafiz did this
+                GameSystem.Instance.SetIsDead(true);
+                SoundManager.Instance.playSound(R.raw.lose, 0.3f);
+            }
         }
     }
 
     @Override
     public void Render(Canvas _canvas) {
 
-        if(RenderArrow)
+        if(RenderArrow && !GameSystem.Instance.GetIsPaused() && tempLockout <= 0)
         {
             Matrix transform = new Matrix();
             transform.preTranslate(0, -bmp.getHeight() * 0.5f);
@@ -214,12 +214,12 @@ public class Smurf implements EntityBase, Collidable {
 
     @Override
     public ENTITY_TYPE GetEntityType() {
-        return ENTITY_TYPE.ENT_SMURF;
+        return ENTITY_TYPE.ENT_PLAYER;
     } //Week 8=>Update ent type
 
     public static Smurf Create() {
         Smurf result = new Smurf(); //wek 8
-        EntityManager.Instance.AddEntity(result, ENTITY_TYPE.ENT_SMURF);
+        EntityManager.Instance.AddEntity(result, ENTITY_TYPE.ENT_PLAYER);
         return result;
     }
     @Override
@@ -299,5 +299,16 @@ public class Smurf implements EntityBase, Collidable {
         System.out.println(this.yPos);
         System.out.println(pos.x);
         System.out.println(pos.y);
+    }
+
+    public void ActivateLockout()
+    {
+        tempLockout = 0.1f;
+        if(isJumping)
+        {
+            direction = new Vector2(0,0);
+            RenderArrow = false;
+            isJumping = false;
+        }
     }
 }

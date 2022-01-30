@@ -68,13 +68,21 @@ public class PlatformManager {
         return platform;
     }
 
+    private EntityBase CreateCheese(Vector2 pos)
+    {
+        PlatformCheese platform = PlatformCheese.Create();
+        platform.SetPosition(pos);
+        platform.Init(view);
+        return platform;
+    }
+
     public EntityBase CreateRandom(Vector2 pos)
     {
         Random randomizer = new Random();
 
         pos.x = randomizer.nextInt((int)GlobalSettings.Instance.screenWidth - 320) + 160;
 
-        int randint = randomizer.nextInt(3);
+        int randint = randomizer.nextInt(4);
         switch(randint)
         {
             case 0:
@@ -83,6 +91,8 @@ public class PlatformManager {
                 return CreateMoving(pos);
             case 2:
                 return CreateShaky(pos);
+            case 3:
+                return CreateCheese(pos);
         }
         return null;
     }

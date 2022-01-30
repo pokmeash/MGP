@@ -26,7 +26,7 @@ public class PlatformShaky implements EntityBase, Collidable {
     private float screenWidth =0;
 
     private boolean shaking = false;
-    private float timer = 3;
+    private float timer = 2;
     private boolean soundPlayed = false;
 
 
