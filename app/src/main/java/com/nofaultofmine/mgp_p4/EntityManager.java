@@ -16,8 +16,6 @@ public class EntityManager {
     private SurfaceView view = null;
 
     public Collidable prev = null;
-
-    public boolean landed = false;
     public boolean moveCamera = false;
 
     private EntityManager()
@@ -220,6 +218,8 @@ public class EntityManager {
     public void Clean()
     {
         entityList.clear();
+        prev = null;
+        moveCamera = false;
     }
 }
 
