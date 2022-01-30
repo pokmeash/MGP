@@ -102,6 +102,7 @@ public class Endpage extends Activity implements OnClickListener, StateBase {  /
         {
             MediaPlayer ClickSound = MediaPlayer.create(this,R.raw.laser);
             ClickSound.start();
+            GameSystem.Instance.ModifyScore(0);
             // intent --> to set to another class which another page or screen that we are launching.
             intent.setClass(this, GamePage.class);
             StateManager.Instance.ChangeState("MainGame"); // Default is like a loading page

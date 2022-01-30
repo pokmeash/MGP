@@ -16,11 +16,13 @@ public class RenderTextEntity implements EntityBase{
 
         private boolean isDone = false;
         private boolean isInit = false;
+        private boolean showfps = false;
 
         int frameCount;
         long lastTime = 0;
         long lastFPSTime = 0;
         float fps;
+
 
         Typeface myfont;
 
@@ -41,7 +43,6 @@ public class RenderTextEntity implements EntityBase{
             myfont = Typeface.createFromAsset(_view.getContext().getAssets(), "fonts/Gemcut.otf");
            // myfont = Typeface.create(Typeface.DEFAULT, Typeface.NORMAL);
             isInit = true;
-
         }
 
         @Override
@@ -68,20 +69,22 @@ public class RenderTextEntity implements EntityBase{
         @Override
         public void Render(Canvas _canvas)
         {
-
-            Paint paint = new Paint();
-            paint.setARGB(255, 0,0,0);
-            //paint.setStrokeWidth(200);
-            paint.setTypeface(myfont);
-            paint.setTextSize(70);
-            _canvas.drawText("FPS: " + fps, 30, 80, paint);
+            if (showfps)
+            {
+                Paint paint = new Paint();
+                paint.setARGB(255, 0,0,0);
+                //paint.setStrokeWidth(200);
+                paint.setTypeface(myfont);
+                paint.setTextSize(70);
+                _canvas.drawText("FPS: " + fps, 30, 80, paint);
+            }
 
             Paint paint2 = new Paint();
-            paint2.setARGB(255, 0,0,0);
+            paint2.setARGB(255, 255,255,255);
             //paint.setStrokeWidth(200);
             paint2.setTypeface(myfont);
-            paint2.setTextSize(70);
-            _canvas.drawText("Score: " + GameSystem.Instance.GetIntFromSave("Score"), 30, 140, paint);
+            paint2.setTextSize(300);
+            _canvas.drawText("" + GameSystem.Instance.GetIntFromSave("Score"),450 ,  300, paint2);
         }
 
         @Override
