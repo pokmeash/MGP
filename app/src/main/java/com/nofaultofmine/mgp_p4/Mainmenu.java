@@ -66,7 +66,7 @@ public class Mainmenu extends Activity implements OnClickListener, StateBase {  
         {
             MediaPlayer ClickSound = MediaPlayer.create(this,R.raw.laser);
             ClickSound.start();
-            intent.setClass(this, Endpage.class);
+            System.exit(0);
         }
         startActivity(intent);
 
