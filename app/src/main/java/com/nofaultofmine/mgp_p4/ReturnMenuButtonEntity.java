@@ -60,26 +60,22 @@ public class ReturnMenuButtonEntity implements EntityBase{
     public void Update(float _dt) {
        buttonDelay += _dt;
        if (TouchManager.Instance.HasTouch()) {
-           if (TouchManager.Instance.IsDown() && !Paused) {
+           if (TouchManager.Instance.IsDown() && GameSystem.Instance.GetIsPaused()) {
                // Check Collision of button here!!
                float imgRadius = ScaledbmpH.getHeight() * 0.5f;
                float imgRadius2 = ScaledbmpR.getHeight() * 0.5f;
                if (Collision.SphereToSphere(TouchManager.Instance.GetPosX(), TouchManager.Instance.GetPosY(), 0.0f, xPosH, yPosH, imgRadius) && buttonDelay >= 0.25) {
-                   Paused = true;
                    buttonDelay = 0;
                    GameSystem.Instance.SetIsReturnMenu(!GameSystem.Instance.GetIsReturnMenu());
                }
                if (Collision.SphereToSphere(TouchManager.Instance.GetPosX(), TouchManager.Instance.GetPosY(), 0.0f, xPosR, yPosR, imgRadius2) && buttonDelay >= 0.25) {
-                   Paused = true;
                    buttonDelay = 0;
-                   GameSystem.Instance.ModifyScore(0);
-                   if (GameSystem.Instance.GetIsPaused())
-                   {
-                       GameSystem.Instance.SetIsPaused(!GameSystem.Instance.GetIsPaused());
-                   }
-                   //Reset Player pos
-                   //Entites clean
-                   //Reset game scenestate basically
+                   if (PauseConfirmDialogFragment.IsShown)
+                       return;
+                   PauseConfirmDialogFragment newPauseConfirm = new PauseConfirmDialogFragment ();
+                   newPauseConfirm.show(GamePage.Instance.getSupportFragmentManager(), "PauseConfirm");
+
+
                }
            }
        } else

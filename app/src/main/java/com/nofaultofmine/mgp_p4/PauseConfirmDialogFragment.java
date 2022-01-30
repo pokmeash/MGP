@@ -18,11 +18,19 @@ public class PauseConfirmDialogFragment extends DialogFragment {
         IsShown = true;
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage("Confirm Pause?")
+        builder.setMessage("Confirm Reset?")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // User triggered pause
-                        GameSystem.Instance.SetIsPaused(!GameSystem.Instance.GetIsPaused());
+                        GameSystem.Instance.ModifyScore(0);
+                        if (GameSystem.Instance.GetIsPaused())
+                        {
+                            GameSystem.Instance.SetIsPaused(!GameSystem.Instance.GetIsPaused());
+                        }
+                        //Reset Player pos
+                        //Entites clean
+                        //Reset game scenestate basically
+                        // Button got clicked show the popup dialog
                         IsShown = false;
                     }
                 })
