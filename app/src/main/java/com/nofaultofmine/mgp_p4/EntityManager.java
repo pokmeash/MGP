@@ -12,7 +12,7 @@ import java.util.LinkedList;
 public class EntityManager {
 
     public final static EntityManager Instance = new EntityManager();
-    private LinkedList<EntityBase> entityList = new LinkedList<EntityBase>();
+    public LinkedList<EntityBase> entityList = new LinkedList<EntityBase>();
     private SurfaceView view = null;
 
     public Collidable prev = null;
@@ -175,8 +175,13 @@ public class EntityManager {
                     if (curEntity.GetType() == "Platform" || curEntity.GetType() == "PLAYER") {
                         curEntity.SetPosition(new Vector2(curEntity.GetPosX(), curEntity.GetPosY()).Plus(new Vector2(0, 10.f)));
                     }
-                    if (curEntity.GetType() == "Platform" && curEntity.GetPosY() > view.getHeight()) {
-                        curEntity.SetPosition(new Vector2(curEntity.GetPosX(), 0));
+                    if(curEntity.GetType() == "Platform")
+                    {
+                        if(curEntity.GetPosY() > GlobalSettings.Instance.screenHeight)
+                        {
+                            x.SetIsDone(true);
+                            AddEntity(PlatformManager.Instance.CreateRandom(new Vector2(0,0)), EntityBase.ENTITY_TYPE.ENT_PLATFORM);
+                        }
                     }
                 }
             }
@@ -187,8 +192,8 @@ public class EntityManager {
         }
 
         // Remove all entities that are done
-        for (EntityBase currEntity : removalList) {
-            entityList.remove(currEntity);
+        for (EntityBase x : removalList) {
+            entityList.remove(x);
         }
         removalList.clear();
     }
@@ -212,7 +217,10 @@ public class EntityManager {
 
     public void AddEntity(EntityBase _newEntity, EntityBase.ENTITY_TYPE entity_type)
     {
-        entityList.add(_newEntity);
+        if(!entityList.contains(_newEntity))
+        {
+            entityList.add(_newEntity);
+        }
     }
 
     public void Clean()

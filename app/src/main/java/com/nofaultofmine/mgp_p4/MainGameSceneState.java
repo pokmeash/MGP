@@ -32,30 +32,22 @@ public class MainGameSceneState implements StateBase {
     public void OnEnter(SurfaceView _view)
     {
         Vector2 screenCenter = new Vector2(_view.getWidth() / 2,_view.getHeight() / 2);
-        //System.out.println("screenCenter.x");
-        //System.out.println(screenCenter.x);
-        //System.out.println("screenCenter.y");
-        //System.out.println(screenCenter.y);
-        RenderBackground.Create(); // This is da entity
-        RenderTextEntity.Create(); // Da text
+
+        RenderBackground.Create();
+        RenderTextEntity.Create();
         ResourceManager.Instance.Init(_view);
-        // Player.Create();
-        // NPC.Create();
+
         PausebuttonEntity.Create();
         ReturnMenuButtonEntity.Create();
         Smurf.Create();
 
-        PlatformShaky platform1 = PlatformShaky.Create();
-        platform1.SetPosition(screenCenter.Plus(new Vector2(250,0)));
-
-        PlatformDefault platform2 = PlatformDefault.Create();
-        platform2.SetPosition(screenCenter.Minus(new Vector2(400,screenCenter.y - 200)));
-
         PlatformDefault platform4 = PlatformDefault.Create();
         platform4.SetPosition(screenCenter.Plus(new Vector2(-100,(screenCenter.y - 350))));
 
+        GlobalSettings.Instance.screenHeight = _view.getHeight();
+        GlobalSettings.Instance.screenWidth = _view.getWidth();
 
-        // Example to include another Renderview for Pause Button
+        PlatformManager.Instance.Init(_view);
 
         intent = new Intent();
     }
@@ -74,7 +66,9 @@ public class MainGameSceneState implements StateBase {
 
     @Override
     public void Update(float _dt) {
+        timer += _dt;
         EntityManager.Instance.Update(_dt);
+        PlatformManager.Instance.Update(_dt);
         if(GameSystem.Instance.GetIsDead())
         {
             GamePage.Instance.GoToEnd();

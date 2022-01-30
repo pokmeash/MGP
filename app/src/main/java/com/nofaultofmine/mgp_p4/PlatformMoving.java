@@ -7,12 +7,13 @@ import android.view.SurfaceView;
 
 import java.util.Random;
 
-public class PlatformShaky implements EntityBase, Collidable {
+public class PlatformMoving implements EntityBase, Collidable {
     private Bitmap bmp = null;
 
     private boolean isDone = false;
     private float offset;
-    private Sprite spritePlatform = null;   // New on Week 8
+    private Sprite spriteLeft = null;
+    private Sprite spriteRight = null;
 
     public float xPos = 0;
     public float yPos = 0;
@@ -25,9 +26,7 @@ public class PlatformShaky implements EntityBase, Collidable {
     private float screenHeight = 0;
     private float screenWidth =0;
 
-    private boolean shaking = false;
-    private float timer = 3;
-
+    private boolean movingLeft = false;
 
     Random ranGen = new Random(); //wk 8=>Random Generator
 
@@ -46,8 +45,8 @@ public class PlatformShaky implements EntityBase, Collidable {
 
     @Override
     public void Init(SurfaceView _view) {
-        bmp = ResourceManager.Instance.GetBitmap(R.drawable.platform_shaky_still);
-        spritePlatform= new Sprite(ResourceManager.Instance.GetBitmap(R.drawable.platform_shaky_shaking),1,2, 8 );
+        spriteLeft= new Sprite(ResourceManager.Instance.GetBitmap(R.drawable.platform_move_left),1,4, 4 );
+        spriteRight= new Sprite(ResourceManager.Instance.GetBitmap(R.drawable.platform_move_right),1,4, 4 );
         screenWidth = _view.getWidth();
         screenHeight = _view.getHeight();
     }
@@ -55,19 +54,25 @@ public class PlatformShaky implements EntityBase, Collidable {
     @Override
     public void Update(float _dt)
     {
-        if(shaking)
+        if(movingLeft)
         {
-            spritePlatform.Update(_dt);
-            timer -= _dt;
-            if(timer <= 0)
+            xPos -= 2;
+            if(min.x <= 0)
             {
-                timer = 0;
-                min.x = xPos + fMax.x;
-                min.y = yPos + fMax.y;
-                max.x = xPos + fMin.x;
-                max.y = yPos + fMin.y;
+                movingLeft = false;
             }
         }
+        else
+        {
+            xPos += 2;
+            if(max.x >= GlobalSettings.Instance.screenWidth)
+            {
+                movingLeft = true;
+            }
+        }
+        SetPosition(new Vector2(xPos, yPos));
+        spriteLeft.Update(_dt);
+        spriteRight.Update(_dt);
     }
 
     @Override
@@ -85,21 +90,13 @@ public class PlatformShaky implements EntityBase, Collidable {
     }
     @Override
     public void Render(Canvas _canvas) {
-
-        if(timer > 0)
+        if(movingLeft)
         {
-            if(shaking)
-            {
-                spritePlatform.Render(_canvas, (int)xPos, (int)yPos);
-            }
-            else
-            {
-                Matrix transform = new Matrix();
-                transform.postTranslate(-bmp.getWidth() * 0.5f, -bmp.getHeight() * 0.5f);
-                transform.postTranslate(xPos, yPos);
-                _canvas.drawBitmap(bmp, transform, null);
-                transform.setTranslate(0,0);
-            }
+            spriteLeft.Render(_canvas, (int)xPos, (int)yPos);
+        }
+        else
+        {
+            spriteRight.Render(_canvas, (int)xPos, (int)yPos);
         }
 
 //
@@ -125,7 +122,7 @@ public class PlatformShaky implements EntityBase, Collidable {
 
     @Override
     public boolean IsInit() {
-        return spritePlatform != null;
+        return spriteLeft != null && spriteRight != null;
     }
 
     @Override
@@ -141,8 +138,8 @@ public class PlatformShaky implements EntityBase, Collidable {
         return ENTITY_TYPE.ENT_SMURF;
     }
 
-    public static PlatformShaky Create() {
-        PlatformShaky result = new PlatformShaky(); //wek 8
+    public static PlatformMoving Create() {
+        PlatformMoving result = new PlatformMoving(); //wek 8
         EntityManager.Instance.AddEntity(result, ENTITY_TYPE.ENT_PLATFORM);
         return result;
     }
@@ -184,9 +181,13 @@ public class PlatformShaky implements EntityBase, Collidable {
     @Override
     public void OnHit(Collidable _other)
     {
-        if(EntityManager.Instance.moveCamera)
+        if(movingLeft)
         {
-            shaking = true;
+            _other.SetPosition(new Vector2(_other.GetPosX() - 4, _other.GetPosY()));
+        }
+        else
+        {
+            _other.SetPosition(new Vector2(_other.GetPosX() + 4, _other.GetPosY()));
         }
     }
 }
