@@ -83,6 +83,7 @@ public class RenderTextEntity implements EntityBase{
             paint2.setARGB(255, 255,255,255);
             //paint.setStrokeWidth(200);
             paint2.setTypeface(myfont);
+            paint2.setTextAlign(Paint.Align.CENTER);
             paint2.setTextSize(300);
             _canvas.drawText("" + GameSystem.Instance.GetIntFromSave("Score"),450 ,  300, paint2);
         }
