@@ -11,7 +11,7 @@ public class PlatformDefault implements EntityBase, Collidable {
 
     private boolean isDone = false;
     private float offset;
-    private Sprite spritesmurf = null;   // New on Week 8
+    private Sprite spritePlatform = null;   // New on Week 8
 
     public float xPos = 0;
     public float xStart = 0;
@@ -50,8 +50,8 @@ public class PlatformDefault implements EntityBase, Collidable {
 
     @Override
     public void Init(SurfaceView _view) {
-        bmp = ResourceManager.Instance.GetBitmap(R.drawable.platform);
-
+        bmp = ResourceManager.Instance.GetBitmap(R.drawable.star);
+        spritePlatform= new Sprite(ResourceManager.Instance.GetBitmap(R.drawable.platform),4,4, 8 );
         screenWidth = _view.getWidth();
         screenHeight = _view.getHeight();
     }
@@ -59,9 +59,7 @@ public class PlatformDefault implements EntityBase, Collidable {
     @Override
     public void Update(float _dt)
     {
-        //System.out.println("HI AN EXCLUSIVE PLATFORM HERE");
-        //System.out.println(this.xPos);
-        //System.out.println(this.yPos);
+        spritePlatform.Update(_dt);
     }
 
     @Override
@@ -69,44 +67,40 @@ public class PlatformDefault implements EntityBase, Collidable {
     {
         xPos = pos.x;
         yPos = pos.y;
-        fMin = new Vector2(-150f,-10f);
-        fMax = new Vector2(150f,10f);
+        fMin = new Vector2(-160f,-50f);
+        fMax = new Vector2(160f,-40f);
 
         min.x = xPos + fMin.x;
         min.y = yPos + fMin.y;
         max.x = xPos + fMax.x;
         max.y = yPos + fMax.y;
-
-        //System.out.println(this.xPos);
-        //System.out.println(this.yPos);
-        //System.out.println(pos.x);
-        //System.out.println(pos.y);
     }
     @Override
     public void Render(Canvas _canvas) {
 
+        spritePlatform.Render(_canvas, (int)xPos, (int)yPos);
         Matrix transform = new Matrix();
-        transform.setScale(4.9f,1.3f);
-        transform.postTranslate(-bmp.getWidth() * 0.5f, -bmp.getHeight() * 0.5f);
-        transform.postTranslate(min.x, yPos);
-        _canvas.drawBitmap(bmp, transform, null);
-        //transform.setTranslate(0,0);
 
+        //transform.postTranslate(-bmp.getWidth() * 0.5f, -bmp.getHeight() * 0.5f);
+        //transform.postTranslate(xPos, yPos);
+        //_canvas.drawBitmap(bmp, transform, null);
+        //transform.setTranslate(0,0);
+//
         //transform.postTranslate(-bmp.getWidth() * 0.5f, -bmp.getHeight() * 0.5f);
         //transform.postTranslate(min.x, min.y);
         //_canvas.drawBitmap(bmp, transform, null);
         //transform.setTranslate(0,0);
-//
+////
         //transform.postTranslate(-bmp.getWidth() * 0.5f, -bmp.getHeight() * 0.5f);
         //transform.postTranslate(min.x, max.y);
         //_canvas.drawBitmap(bmp, transform, null);
         //transform.setTranslate(0,0);
-//
+////
         //transform.postTranslate(-bmp.getWidth() * 0.5f, -bmp.getHeight() * 0.5f);
         //transform.postTranslate(max.x, min.y);
         //_canvas.drawBitmap(bmp, transform, null);
         //transform.setTranslate(0,0);
-//
+////
         //transform.postTranslate(-bmp.getWidth() * 0.5f, -bmp.getHeight() * 0.5f);
         //transform.postTranslate(max.x, max.y);
         //_canvas.drawBitmap(bmp, transform, null);
@@ -114,7 +108,7 @@ public class PlatformDefault implements EntityBase, Collidable {
 
     @Override
     public boolean IsInit() {
-        return spritesmurf != null;
+        return spritePlatform != null;
     }
 
     @Override

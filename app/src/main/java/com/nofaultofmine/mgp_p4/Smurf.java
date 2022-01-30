@@ -46,6 +46,8 @@ public class Smurf implements EntityBase, Collidable {
 
     Collidable.hitbox_type HB_type = hitbox_type.HB_BOX;
 
+    float holdTime = 0;
+
 
     @Override
     public boolean IsDone() {
@@ -60,15 +62,15 @@ public class Smurf implements EntityBase, Collidable {
     @Override
     public void Init(SurfaceView _view) {
         bmp = ResourceManager.Instance.GetBitmap(R.drawable.star);
-        spritesmurf = new Sprite(ResourceManager.Instance.GetBitmap(R.drawable.smurf_sprite),4,4, 16 );
+        spritesmurf = new Sprite(ResourceManager.Instance.GetBitmap(R.drawable.smurf_sprite),1,3, 3 );
 
         screenWidth = _view.getWidth();
         screenHeight = _view.getHeight();
 
         xPos = screenWidth / 2;
         yPos = screenHeight / 2 + 300;
-        fMin = new Vector2(-150f,-150f);
-        fMax = new Vector2(150f,150f);
+        fMin = new Vector2(-64f,-64f);
+        fMax = new Vector2(64f,80f);
     }
 
     @Override
@@ -85,18 +87,18 @@ public class Smurf implements EntityBase, Collidable {
         RollbackPos.x = xPos;
         RollbackPos.y = yPos;
 
-        //System.out.println(min.x);
-        //System.out.println(min.y);
-        //System.out.println(max.x);
-        //System.out.println(max.y);
-        //System.out.println(xPos);
-        //System.out.println(yPos);
-
         if(TouchManager.Instance.HasTouch())
         {
             touchPos.x = TouchManager.Instance.GetPosX();
             touchPos.y = TouchManager.Instance.GetPosY();
             isJumping = true;
+            holdTime += 0.025f;
+
+            if(holdTime >= 3)
+            {
+                holdTime = 3;
+            }
+
         }
 
         if(!TouchManager.Instance.HasTouch() && isJumping && !isLetGo)
@@ -105,6 +107,9 @@ public class Smurf implements EntityBase, Collidable {
             isLetGo = true;
             hasLanded = false;
             jumpVector = pos.Minus(touchPos);
+            jumpVector = jumpVector.Normalized();
+            jumpVector = jumpVector.Multiply(new Vector2(200 + 100 * holdTime,200 + 100* holdTime));
+            holdTime = 0;
         }
 
         if(isLetGo)
@@ -122,9 +127,9 @@ public class Smurf implements EntityBase, Collidable {
             yPos += jumpVector.y * 0.1;
             jumpVector.y += 9.81;
 
-            if(jumpVector.y >= 50)
+            if(jumpVector.y >= 200)
             {
-                jumpVector.y = 150;
+                jumpVector.y = 200;
             }
         }
 
@@ -146,24 +151,28 @@ public class Smurf implements EntityBase, Collidable {
         //wk 8=>draw sprite using xpos,ypos, must cast in int
         spritesmurf.Render(_canvas, (int)xPos, (int)yPos);
 
+        //hitbox for testing
         //Matrix transform = new Matrix();
         //transform.postTranslate(-bmp.getWidth() * 0.5f, -bmp.getHeight() * 0.5f);
         //transform.postTranslate(min.x, min.y);
         //_canvas.drawBitmap(bmp, transform, null);
         //transform.setTranslate(0,0);
-////
+        ////
         //transform.postTranslate(-bmp.getWidth() * 0.5f, -bmp.getHeight() * 0.5f);
         //transform.postTranslate(min.x, max.y);
+        //transform.setRotate(90);
         //_canvas.drawBitmap(bmp, transform, null);
         //transform.setTranslate(0,0);
-////
+        ////
         //transform.postTranslate(-bmp.getWidth() * 0.5f, -bmp.getHeight() * 0.5f);
         //transform.postTranslate(max.x, min.y);
+        //transform.setRotate(180);
         //_canvas.drawBitmap(bmp, transform, null);
         //transform.setTranslate(0,0);
-////
+        ////
         //transform.postTranslate(-bmp.getWidth() * 0.5f, -bmp.getHeight() * 0.5f);
         //transform.postTranslate(max.x, max.y);
+        //transform.setRotate(270);
         //_canvas.drawBitmap(bmp, transform, null);
 
     }
