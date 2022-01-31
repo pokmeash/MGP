@@ -63,7 +63,7 @@ public class Endpage extends Activity implements OnClickListener, StateBase {  /
         list_view.setAdapter(adapter);
 
         //Leaderboard
-        int result = GameSystem.Instance.GetIntFromSave("Score");
+        int result = GlobalSettings.Instance.score;
 
         if (result > GameSystem.Instance.getHighscore1())
         {
