@@ -64,7 +64,7 @@ public class PlatformShaky implements EntityBase, Collidable {
             {
                 if(!soundPlayed)
                 {
-                    SoundManager.Instance.playSound(R.raw.explode, 0.5f);
+                    SoundManager.Instance.playSound(R.raw.explode, 0.1f);
                 }
                 timer = 0;
                 min.x = xPos + fMax.x;

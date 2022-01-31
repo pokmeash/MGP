@@ -43,7 +43,7 @@ public class EntityManager {
             {
                 entityList.get(i).Init(view);
             }
-            if(!GameSystem.Instance.GetIsPaused() ||  entityList.get(i).GetEntityType() == EntityBase.ENTITY_TYPE.ENT_PAUSE)
+            if(!GameSystem.Instance.GetIsPaused() ||  entityList.get(i).GetEntityType() == EntityBase.ENTITY_TYPE.ENT_PAUSE || entityList.get(i).GetEntityType() == EntityBase.ENTITY_TYPE.ENT_RETURNMENU )
             {
                 entityList.get(i).Update(_dt);
             }

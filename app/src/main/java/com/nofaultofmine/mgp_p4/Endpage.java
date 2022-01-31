@@ -80,9 +80,9 @@ public class Endpage extends Activity implements OnClickListener, StateBase {  /
         {
             GameSystem.Instance.setHighscore3(result);
         }
-        arrayList.add(Integer.toString(GameSystem.Instance.getHighscore1()));
-        arrayList.add(Integer.toString(GameSystem.Instance.getHighscore2()));
-        arrayList.add(Integer.toString(GameSystem.Instance.getHighscore3()));
+        arrayList.add("Highscore 1:  " + Integer.toString(GameSystem.Instance.getHighscore1()));
+        arrayList.add("Highscore 2:  " + Integer.toString(GameSystem.Instance.getHighscore2()));
+        arrayList.add("Highscore 3:  " + Integer.toString(GameSystem.Instance.getHighscore3()));
         adapter.notifyDataSetChanged();
 
         StateManager.Instance.AddState(new Endpage());
