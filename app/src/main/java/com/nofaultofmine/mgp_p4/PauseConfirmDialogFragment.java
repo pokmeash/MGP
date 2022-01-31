@@ -29,7 +29,8 @@ public class PauseConfirmDialogFragment extends DialogFragment {
                         }
                         //Reset Player pos
                         //Entites clean
-                        //Reset game scenestate basically
+                        GameSystem.Instance.SetIsReset(true);
+                        GamePage.Instance.GoToInt();
                         // Button got clicked show the popup dialog
                         IsShown = false;
                     }

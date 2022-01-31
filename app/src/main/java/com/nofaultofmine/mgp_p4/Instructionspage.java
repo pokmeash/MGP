@@ -1,24 +1,19 @@
 package com.nofaultofmine.mgp_p4;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.media.MediaPlayer;
+import android.os.Bundle;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
-import android.content.Intent;
+import android.widget.Button;
 
-// Created by TanSiewLan2021
-
-public class Mainmenu extends Activity implements OnClickListener, StateBase {  //Using StateBase class
-
+public class Instructionspage extends Activity implements View.OnClickListener, StateBase{
     //Define buttons
-    private Button btn_start;
-    private Button btn_back;
+    private Button btn_play;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,72 +26,51 @@ public class Mainmenu extends Activity implements OnClickListener, StateBase {  
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        setContentView(R.layout.mainmenu);
+        setContentView(R.layout.instructionspage);
 
-        btn_start = (Button)findViewById(R.id.btn_start);
-        btn_start.setOnClickListener(this); //Set Listener to this button --> Start Button
+        btn_play = (Button)findViewById(R.id.btn_play);
+        btn_play.setOnClickListener(this); //Set Listener to this button --> Start Button
 
-        btn_back = (Button)findViewById(R.id.btn_back);
-        btn_back.setOnClickListener(this); //Set Listener to this button --> Back Button
-
-		  StateManager.Instance.AddState(new Mainmenu());
+        StateManager.Instance.AddState(new Instructionspage());
     }
 
     @Override
-    //Invoke a callback event in the view
     public void onClick(View v)
     {
-        // Intent = action to be performed.
-        // Intent is an object provides runtime binding.
-        // new instance of this object intent
-
         Intent intent = new Intent();
 
-        if (v == btn_start)
+        if(v == btn_play)
         {
             MediaPlayer ClickSound = MediaPlayer.create(this,R.raw.laser);
             ClickSound.start();
             GameSystem.Instance.ModifyScore(0);
-            if (GameSystem.Instance.GetIsPaused())
-            {
-                GameSystem.Instance.SetIsPaused(!GameSystem.Instance.GetIsPaused());
-            }
             // intent --> to set to another class which another page or screen that we are launching.
-            intent.setClass(this, Instructionspage.class);
-            StateManager.Instance.ChangeState("InstructionsPage"); // Default is like a loading page
-
+            intent.setClass(this, GamePage.class);
+            StateManager.Instance.ChangeState("MainGame"); // Default is like a loading page
         }
 
-        else if (v == btn_back)
-        {
-            MediaPlayer ClickSound = MediaPlayer.create(this,R.raw.laser);
-            ClickSound.start();
-            finishAndRemoveTask();
-            System.exit(0);
-        }
         startActivity(intent);
-
     }
 
     @Override
     public void Render(Canvas _canvas) {
     }
-	
+
     @Override
     public void OnEnter(SurfaceView _view) {
     }
-	
+
     @Override
     public void OnExit() {
     }
-	
+
     @Override
     public void Update(float _dt) {
     }
-	
+
     @Override
     public String GetName() {
-        return "Mainmenu";
+        return "InstructionsPage";
     }
 
     @Override

@@ -46,7 +46,9 @@ public class GamePage extends AppCompatActivity {
             GameSystem.Instance.SetIsReturnMenu(!GameSystem.Instance.GetIsReturnMenu());
             intent.setClass(this, Mainmenu.class);
             StateManager.Instance.ChangeState("Mainmenu"); // Default is like a loading page
+            startActivity(intent);
         }
+
         return true;
     }
 
@@ -62,5 +64,16 @@ public class GamePage extends AppCompatActivity {
         }
     }
 
+    public void GoToInt()
+    {
+        if (GameSystem.Instance.GetIsReset())
+        {
+            Intent intent = new Intent();
+            GameSystem.Instance.SetIsReset(!GameSystem.Instance.GetIsReset());
+            intent.setClass(this, Instructionspage.class);
+            StateManager.Instance.ChangeState("InstructionsPage");
+            startActivity(intent);
+        }
+    }
 }
 

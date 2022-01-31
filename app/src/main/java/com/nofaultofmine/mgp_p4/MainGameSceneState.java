@@ -37,8 +37,7 @@ public class MainGameSceneState implements StateBase {
 
         RenderBackground.Create();
         RenderTextEntity.Create();
-        ResourceManager.Instance.Init(view);
-
+        ResourceManager.Instance.Init(_view);
         PausebuttonEntity.Create();
         ReturnMenuButtonEntity.Create();
         Smurf.Create();
@@ -46,14 +45,13 @@ public class MainGameSceneState implements StateBase {
         PlatformDefault platform4 = PlatformDefault.Create();
         platform4.SetPosition(screenCenter.Plus(new Vector2(-100,(screenCenter.y - 350))));
 
-        GlobalSettings.Instance.screenHeight = view.getHeight();
-        GlobalSettings.Instance.screenWidth = view.getWidth();
+        GlobalSettings.Instance.screenHeight = _view.getHeight();
+        GlobalSettings.Instance.screenWidth = _view.getWidth();
         GlobalSettings.Instance.score = 0;
-
-        PlatformManager.Instance.Init(view);
-
+        PlatformManager.Instance.Init(_view);
         intent = new Intent();
     }
+
     @Override
     public void OnExit() {
         EntityManager.Instance.Clean();
@@ -64,7 +62,6 @@ public class MainGameSceneState implements StateBase {
     public void Render(Canvas _canvas)
     {
         EntityManager.Instance.Render(_canvas);
-
     }
 
     @Override
@@ -76,13 +73,6 @@ public class MainGameSceneState implements StateBase {
         {
             GamePage.Instance.GoToEnd();
         }
-    }
-
-    public void Reset()
-    {
-        EntityManager.Instance.Clean();
-
-
     }
 }
 

@@ -218,6 +218,7 @@ public class EntityManager {
 
     public void Clean()
     {
+
         entityList.clear();
         prev = null;
         moveCamera = false;

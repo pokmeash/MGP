@@ -1,6 +1,5 @@
 package com.nofaultofmine.mgp_p4;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.view.SurfaceView;
 
@@ -15,6 +14,7 @@ public class GameSystem {
     private boolean isPaused = false;
     private boolean ReturnMenu = false;
     private boolean isDead = false;
+    private boolean isReset = false;
     private int Score = 0;
     //RyanLau did this
     SharedPreferences sharedPref = null;
@@ -38,6 +38,7 @@ public class GameSystem {
         sharedPref = GamePage.Instance.getSharedPreferences(SHARED_PREF_ID,0);
         // We will add all of our states into the state manager here!
         StateManager.Instance.AddState(new Mainmenu());
+        StateManager.Instance.AddState(new Instructionspage());
         StateManager.Instance.AddState(new MainGameSceneState());
         StateManager.Instance.AddState(new Endpage());
         setHighscore1(GetIntFromSave("highscore1"));
@@ -152,5 +153,15 @@ public class GameSystem {
         SetIntInSave("highscore2", getHighscore2());
         SetIntInSave("highscore3", getHighscore3());
         SaveEditEnd();
+    }
+
+    public void SetIsReset(boolean _reset)
+    {
+        isReset = _reset;
+    }
+
+    public boolean GetIsReset()
+    {
+        return isReset;
     }
 }

@@ -11,7 +11,6 @@ import java.util.Random;
 public class PlatformManager {
 
     public final static PlatformManager Instance = new PlatformManager();
-    private LinkedList<EntityBase> PlatformList = new LinkedList<EntityBase>();
     private SurfaceView view = null;
 
     private PlatformManager()
@@ -33,12 +32,6 @@ public class PlatformManager {
 
     public void Render(Canvas _canvas)
     {
-
-    }
-
-    public void Clean()
-    {
-        PlatformList.clear();
 
     }
 
