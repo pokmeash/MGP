@@ -59,7 +59,9 @@ public class Endpage extends Activity implements OnClickListener, StateBase {  /
         list_view = (ListView)findViewById(R.id.listView);
 
         arrayList = new ArrayList<String>();
+
         adapter = new ArrayAdapter<String>(Endpage.this, android.R.layout.simple_list_item_1,arrayList);
+
         list_view.setAdapter(adapter);
 
         //Leaderboard
@@ -80,9 +82,47 @@ public class Endpage extends Activity implements OnClickListener, StateBase {  /
         {
             GameSystem.Instance.setHighscore3(result);
         }
-        arrayList.add("Highscore 1:  " + Integer.toString(GameSystem.Instance.getHighscore1()));
-        arrayList.add("Highscore 2:  " + Integer.toString(GameSystem.Instance.getHighscore2()));
-        arrayList.add("Highscore 3:  " + Integer.toString(GameSystem.Instance.getHighscore3()));
+        //above is the highscore ranking^
+
+        arrayList.add("Bestest Score");
+        if (GameSystem.Instance.getHighscore1() > 99)
+        {
+            arrayList.add("        " +Integer.toString(GameSystem.Instance.getHighscore1()));
+        }
+        else if (GameSystem.Instance.getHighscore1() > 9)
+        {
+            arrayList.add("         " +Integer.toString(GameSystem.Instance.getHighscore1()));
+        }
+        else
+        {
+            arrayList.add("          " +Integer.toString(GameSystem.Instance.getHighscore1()));
+        }
+        arrayList.add("Bester Score");
+        if (GameSystem.Instance.getHighscore2() > 99)
+        {
+            arrayList.add("        " +Integer.toString(GameSystem.Instance.getHighscore2()));
+        }
+        if (GameSystem.Instance.getHighscore2() > 9)
+        {
+            arrayList.add("         " +Integer.toString(GameSystem.Instance.getHighscore2()));
+        }
+        else
+        {
+            arrayList.add("          " +Integer.toString(GameSystem.Instance.getHighscore2()));
+        }
+        arrayList.add(" Best Score");
+        if (GameSystem.Instance.getHighscore3() > 99)
+        {
+            arrayList.add("        " +Integer.toString(GameSystem.Instance.getHighscore3()));
+        }
+        if (GameSystem.Instance.getHighscore3() > 9)
+        {
+            arrayList.add("         " +Integer.toString(GameSystem.Instance.getHighscore3()));
+        }
+        else
+        {
+            arrayList.add("          " +Integer.toString(GameSystem.Instance.getHighscore3()));
+        }
         adapter.notifyDataSetChanged();
 
         StateManager.Instance.AddState(new Endpage());
