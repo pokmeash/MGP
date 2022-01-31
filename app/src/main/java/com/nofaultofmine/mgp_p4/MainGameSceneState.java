@@ -48,6 +48,7 @@ public class MainGameSceneState implements StateBase {
 
         GlobalSettings.Instance.screenHeight = view.getHeight();
         GlobalSettings.Instance.screenWidth = view.getWidth();
+        GlobalSettings.Instance.score = 0;
 
         PlatformManager.Instance.Init(view);
 

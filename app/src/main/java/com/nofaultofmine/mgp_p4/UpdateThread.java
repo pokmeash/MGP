@@ -100,6 +100,8 @@ public class UpdateThread extends Thread {
 
             // End of Loop
         }
+        //clean stuff
+        GameSystem.Instance.Clean();
     }
 }
 

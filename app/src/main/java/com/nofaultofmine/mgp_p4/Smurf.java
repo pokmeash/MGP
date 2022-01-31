@@ -74,6 +74,7 @@ public class Smurf implements EntityBase, Collidable {
         yPos = screenHeight / 2 + 300;
         fMin = new Vector2(-64f,-64f);
         fMax = new Vector2(64f,80f);
+        score = 0;
     }
 
     @Override
@@ -270,8 +271,7 @@ public class Smurf implements EntityBase, Collidable {
                         if (EntityManager.Instance.prev != _other) {
                             EntityManager.Instance.prev = _other;
                             EntityManager.Instance.moveCamera = true;
-                            score++;
-                            GameSystem.Instance.ModifyScore(score);
+                            GlobalSettings.Instance.score++;
                         } else {
                             EntityManager.Instance.moveCamera = false;
                         }

@@ -40,6 +40,10 @@ public class GameSystem {
         StateManager.Instance.AddState(new Mainmenu());
         StateManager.Instance.AddState(new MainGameSceneState());
         StateManager.Instance.AddState(new Endpage());
+        setHighscore1(GetIntFromSave("highscore1"));
+        setHighscore2(GetIntFromSave("highscore2"));
+        setHighscore3(GetIntFromSave("highscore3"));
+        ModifyScore(0);
     }
 
     public void SetIsPaused(boolean _newIsPaused)
@@ -81,28 +85,21 @@ public class GameSystem {
     //RyanLau did this
     public void SaveEditBegin()
     {
-        if (editor != null)
-            return;
-
         //Start the editing
         editor = sharedPref.edit();
     }
 
     public void SaveEditEnd()
     {
-        if (editor != null)
-            return;
-
         editor.commit();
         editor = null;
     }
 
     public void SetIntInSave(String _key, int _value)
     {
-        if (editor != null)
+        if (editor == null)
             return;
-
-        editor.putInt(_key,_value);
+        editor.putInt(_key, _value);
     }
 
     public int GetIntFromSave(String _key)
@@ -140,4 +137,20 @@ public class GameSystem {
         return Highscore3;
     }
 
+    public boolean CheckIfExists(String _key)
+    {
+        if (sharedPref.contains(_key)) {
+            return true;
+        }
+        return false;
+    }
+
+    public void Clean()
+    {
+        SaveEditBegin();
+        SetIntInSave("highscore1", getHighscore1());
+        SetIntInSave("highscore2", getHighscore2());
+        SetIntInSave("highscore3", getHighscore3());
+        SaveEditEnd();
+    }
 }
